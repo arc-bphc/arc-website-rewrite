@@ -1,0 +1,137 @@
+
+---
+title: "Building a Line Follower Robot"
+description: "Learn how to build and program a simple line-following robot using basic sensors and Arduino."
+image: "../assets/line-follower.png"
+createdAt: 06-06-2025
+draft: false
+tags:
+  - guide
+  - "embedded systems"
+  - arduino
+---
+
+Line followers are one of the most popular beginner robotics projects—and for good reason. They introduce you to concepts like sensors, feedback systems, and basic motion control. In this guide, you'll learn how to build one from scratch using an Arduino, IR sensors, and a little bit of code.
+
+## What is a Line Follower?
+
+A line follower robot is designed to follow a visual line marked on the floor. This is typically a black line on a white surface (or vice versa). The robot uses infrared (IR) sensors to detect the line and adjust its motors accordingly.
+
+## Components You'll Need
+
+* Arduino Uno (or any compatible board)
+* 2x IR sensor modules
+* 2x DC gear motors
+* L298N motor driver module
+* A caster wheel
+* Robot chassis
+* Jumper wires
+* 7.4V Li-ion battery or power supply
+
+> 💡 You can also use a custom PCB or sensor array for better stability, but we’ll stick with modules for simplicity.
+
+## Wiring It All Together
+
+### Sensor Setup
+
+Each IR sensor has 3 pins:
+
+* VCC → +5V on Arduino
+* GND → GND
+* OUT → a digital pin (e.g., D2 and D3)
+
+### Motor Driver
+
+Connect the motors to the L298N module’s OUT1-OUT4 pins. Then:
+
+* IN1/IN2 → D8 and D9 (left motor)
+* IN3/IN4 → D10 and D11 (right motor)
+* ENA and ENB can be connected to PWM pins if you want speed control (optional)
+* Power the L298N from your battery supply
+
+## The Arduino Code
+
+Here’s a simple sketch to get you started:
+
+```cpp
+#define LEFT_SENSOR 2
+#define RIGHT_SENSOR 3
+#define LEFT_MOTOR1 8
+#define LEFT_MOTOR2 9
+#define RIGHT_MOTOR1 10
+#define RIGHT_MOTOR2 11
+
+void setup() {
+  pinMode(LEFT_SENSOR, INPUT);
+  pinMode(RIGHT_SENSOR, INPUT);
+  pinMode(LEFT_MOTOR1, OUTPUT);
+  pinMode(LEFT_MOTOR2, OUTPUT);
+  pinMode(RIGHT_MOTOR1, OUTPUT);
+  pinMode(RIGHT_MOTOR2, OUTPUT);
+}
+
+void loop() {
+  int left = digitalRead(LEFT_SENSOR);
+  int right = digitalRead(RIGHT_SENSOR);
+
+  if (left == LOW && right == LOW) {
+    forward();
+  } else if (left == LOW) {
+    turnRight();
+  } else if (right == LOW) {
+    turnLeft();
+  } else {
+    stopMotors();
+  }
+}
+
+void forward() {
+  digitalWrite(LEFT_MOTOR1, HIGH);
+  digitalWrite(LEFT_MOTOR2, LOW);
+  digitalWrite(RIGHT_MOTOR1, HIGH);
+  digitalWrite(RIGHT_MOTOR2, LOW);
+}
+
+void turnLeft() {
+  digitalWrite(LEFT_MOTOR1, LOW);
+  digitalWrite(LEFT_MOTOR2, LOW);
+  digitalWrite(RIGHT_MOTOR1, HIGH);
+  digitalWrite(RIGHT_MOTOR2, LOW);
+}
+
+void turnRight() {
+  digitalWrite(LEFT_MOTOR1, HIGH);
+  digitalWrite(LEFT_MOTOR2, LOW);
+  digitalWrite(RIGHT_MOTOR1, LOW);
+  digitalWrite(RIGHT_MOTOR2, LOW);
+}
+
+void stopMotors() {
+  digitalWrite(LEFT_MOTOR1, LOW);
+  digitalWrite(LEFT_MOTOR2, LOW);
+  digitalWrite(RIGHT_MOTOR1, LOW);
+  digitalWrite(RIGHT_MOTOR2, LOW);
+}
+```
+
+## Calibration Tips
+
+* Make sure your IR sensors are mounted slightly above the surface.
+* Use a dark black line on a white or reflective surface.
+* Adjust the sensor sensitivity or change the detection threshold in code.
+* Avoid glossy floors or uneven lighting which may confuse the sensors.
+
+## Going Further
+
+Want to expand the project?
+
+* Add PID control for smoother turns.
+* Use 3 or 5 sensors for more precise line detection.
+* Use PWM to adjust speed dynamically based on curve sharpness.
+* Add Bluetooth or RF module to switch between modes remotely.
+
+## Conclusion
+
+This project is an excellent way to get started with embedded systems, real-time control, and robotic behavior. Once you're comfortable with line following, you’ll be ready to build smarter autonomous systems—like maze solvers, edge avoiders, or even mapping bots.
+
+Happy building!

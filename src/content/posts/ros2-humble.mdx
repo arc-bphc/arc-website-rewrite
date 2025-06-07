@@ -1,0 +1,186 @@
+---
+title: "Getting Started with ROS 2 Humble"
+description: "A step-by-step guide to install and begin using ROS 2 Humble on Ubuntu, ideal for robotics beginners and enthusiasts."
+image: "../assets/ros2-humble.jpg"
+createdAt: 06-07-2025
+draft: false
+tags:
+  - guide
+  - ros2
+  - robotics
+  - "getting started"
+---
+
+ROS 2 (Robot Operating System) is the go-to framework for building robotic applications—from simulations to real-time control. This guide will walk you through installing **ROS 2 Humble**, understanding its core concepts, and running your first nodes.
+
+Whether you're building a robot from scratch or looking to simulate autonomous navigation, this is where it starts.
+
+---
+
+## What is ROS 2 Humble?
+
+**ROS 2 Humble Hawksbill** is a long-term support (LTS) version of the Robot Operating System 2, officially supported until 2027. It brings improvements over ROS 1 like real-time support, better middleware abstraction (DDS), cross-platform support, and enhanced security.
+
+> 💡 ROS 2 is modular—think of it as a toolbox that helps different software parts of your robot talk to each other.
+
+---
+
+## System Requirements
+
+* Ubuntu 22.04 (Humble is only officially supported on this version)
+* 2 GB RAM (minimum)
+* Internet connection
+* Basic familiarity with Linux commands
+
+---
+
+## Step 1: Install Ubuntu 22.04
+
+ROS 2 Humble works best with **Ubuntu 22.04 Jammy Jellyfish**. You can either:
+
+* Install it on a physical machine
+* Use a virtual machine (e.g., VirtualBox)
+* Dual-boot alongside your current OS
+
+---
+
+## Step 2: Set Up ROS 2 Humble
+
+### Add the ROS 2 Repositories
+
+```bash
+sudo apt update && sudo apt install curl gnupg lsb-release
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list'
+```
+
+### Install ROS 2
+
+```bash
+sudo apt update
+sudo apt install ros-humble-desktop
+```
+
+> 🧰 `ros-humble-desktop` includes all the basic tools, RViz, simulators, and more.
+
+### Set Up Environment
+
+Add ROS to your shell startup:
+
+```bash
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+---
+
+## Step 3: Run Your First ROS 2 Node
+
+Open two terminals.
+
+**Terminal 1: Start the ROS 2 demo talker node**
+
+```bash
+ros2 run demo_nodes_cpp talker
+```
+
+**Terminal 2: Start the listener**
+
+```bash
+ros2 run demo_nodes_cpp listener
+```
+
+You should see messages like: `I heard: "Hello World: 1"` in the listener terminal.
+
+---
+
+## Core Concepts You Should Know
+
+### Nodes
+
+These are the building blocks of ROS—individual processes doing specific tasks.
+
+### Topics
+
+Nodes can publish (send) or subscribe (receive) messages over a *topic*. Think of it as a broadcast channel.
+
+### Services
+
+For request-reply interactions (e.g., "turn left now").
+
+### Packages
+
+Collections of nodes, configuration, and launch files. You can create your own packages too.
+
+---
+
+## Step 4: Create Your First Package
+
+```bash
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src
+ros2 pkg create --build-type ament_python my_first_package
+```
+
+Now build it:
+
+```bash
+cd ~/ros2_ws
+colcon build
+source install/setup.bash
+```
+
+You can now start adding Python scripts as nodes inside `my_first_package`.
+
+---
+
+## Step 5: Visualize with RViz
+
+```bash
+ros2 run rviz2 rviz2
+```
+
+Use this powerful tool to visualize robots, maps, and data from your ROS system.
+
+---
+
+## Step 6: Use turtlesim!
+
+```bash
+ros2 run turtlesim turtlesim_node
+```
+
+Control the turtle:
+
+```bash
+ros2 run turtlesim turtle_teleop_key
+```
+
+> 🐢 Turtlesim is a fun way to learn topics and teleoperation!
+
+---
+
+## Tips & Tricks
+
+* Use `ros2 topic list` and `ros2 node list` to explore the running system.
+* Use `rqt_graph` to see how nodes and topics are connected.
+* `colcon build` builds your workspace. Always source your install setup before running your code.
+
+---
+
+## Going Further
+
+* Try SLAM with `slam_toolbox`
+* Connect sensors using ROS 2 drivers
+* Simulate robots with Gazebo or Webots
+* Move to real robots using micro-ROS or ROS 2 on Raspberry Pi
+
+---
+
+## Conclusion
+
+ROS 2 Humble sets the stage for your robotics journey—offering modularity, real-time performance, and support for advanced algorithms like SLAM, perception, and navigation.
+
+Next step? Try integrating it with real sensors and actuators. Or build a small autonomous robot like Beetle!
+
+Happy hacking 🤖

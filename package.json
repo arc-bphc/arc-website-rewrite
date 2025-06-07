@@ -14,14 +14,21 @@
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/node": "^9.2.2",
+    "@astrojs/react": "^4.3.0",
     "@astrojs/sitemap": "^3.4.0",
     "@iconify-json/lucide": "^1.2.20",
     "@iconify-json/simple-icons": "^1.2.18",
     "@iconify/utils": "^2.2.1",
     "@shikijs/themes": "^1.26.1",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.6",
     "astro": "^5.8.0",
     "astro-expressive-code": "^0.38.3",
-    "sharp": "^0.33.5"
+    "ogl": "^1.0.11",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sharp": "^0.33.5",
+    "three": "^0.177.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

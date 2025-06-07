@@ -1,42 +1,79 @@
-![Spectre, a terminal-inspired theme for Astro.](./images/README.png)
+# ARC BPHC
 
-Spectre is a terminal-inspired theme for Astro, built using TypeScript and Astro.
-
-## Getting Started
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/louisescher/spectre/tree/main)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/louisescher/spectre/tree/main)
-
-Alternatively, you can create a new Astro project with Spectre like this:
-
-```bash
-# npm
-npm create astro@latest -- --template louisescher/spectre
-
-# pnpm
-pnpm create astro@latest --template louisescher/spectre
-
-# yarn
-yarn create astro --template louisescher/spectre
-```
+Welcome to the official repository for the Club Website — built using [Astro](https://astro.build/) and [React](https://reactjs.org/). This site showcases our club activities, events, and blog posts.
 
 ## Features
 
-- 100 / 100 Lighthouse performance
-- Responsive for all screen sizes
-- Fully accessible
-- Type-Safe
-- Auto-generated sitemap
-- Markdown / MDX Support
-- Builds on content collections
-- Search powered by [pagefind](https://pagefind.app)
-- Comments powered by [giscus](https://giscus.app) (can be turned off)
-- More!
+- Fast, optimized static site with Astro
+- React components for interactive UI
+- Blog system powered by MDX for markdown + React support
+- Responsive and accessible design
+- SEO-friendly metadata handling
 
-## Curious?
+## Getting Started
 
-Head over to [the preview page](https://spectre.louisescher.dev) to find out more!
+### Prerequisites
 
-### Spectre Integration
+- Node.js (>= 16)
+- npm or yarn package manager
 
-If you want to know more about how the custom integration that is used in the `astro.config.ts` file works, head over to the [integration's own README](https://github.com/louisescher/spectre/tree/master/package)!
+### Installation
+
+1. Clone this repo:
+
+   ```bash
+   git clone git@github.com:arc-bphc/arc-website-rewrite.git
+   cd club-website
+		```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser and go to `http://localhost:4321` to view the site.
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+This will generate a production-ready build in the `dist/` folder.
+
+### Generating search index
+
+```bash
+npm run postbuild
+```
+This will regnerate the site search index based on the content in the `dist/` folder 
+
+## Folder Structure
+
+* `/src/pages` — Astro pages and routes
+* `/src/components` — React and Astro components
+* `/src/content/posts` — Blog posts written in MDX
+* `/src/content/projects` - Project write-ups written in MDX
+* `/src/content/assets` - Blog and Project image headers
+* `/public` — Static assets like images, fonts, and icons
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Contact
+
+For questions, reach out to the club maintainers or open an issue here on GitHub.
+
+---

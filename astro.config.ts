@@ -9,6 +9,8 @@ import spectre from './package/src';
 import node from '@astrojs/node';
 import { spectreDark } from './src/ec-theme';
 
+import react from '@astrojs/react'
+
 const {
   GISCUS_REPO,
   GISCUS_REPO_ID,
@@ -26,37 +28,27 @@ const config = defineConfig({
   site: 'https://spectre.louisescher.dev',
   output: 'static',
   integrations: [
+    react(),
     expressiveCode({
       themes: [spectreDark],
     }),
     mdx(),
     sitemap(),
     spectre({
-      name: 'Spectre',
+      name: 'ARC BPHC',
       openGraph: {
         home: {
-          title: 'Spectre',
-          description: 'A minimalistic theme for Astro.'
+          title: 'ARC BPHC',
+          description: 'ARC (Automation and Robotics Club) of BITS Pilani, Hyderabad Campus'
         },
         blog: {
           title: 'Blog',
-          description: 'News and guides for Spectre.'
+          description: 'Find out what is cooking at ARC BPHC.'
         },
         projects: {
           title: 'Projects'
         }
       },
-      giscus: {
-        repository: GISCUS_REPO,
-        repositoryId: GISCUS_REPO_ID,
-        category: GISCUS_CATEGORY,
-        categoryId: GISCUS_CATEGORY_ID,
-        mapping: GISCUS_MAPPING as any,
-        strict: GISCUS_STRICT === "true",
-        reactionsEnabled: GISCUS_REACTIONS_ENABLED === "true",
-        emitMetadata: GISCUS_EMIT_METADATA === "true",
-        lang: GISCUS_LANG,
-      }
     })
   ],
   adapter: node({
