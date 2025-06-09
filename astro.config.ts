@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import spectre from './package/src';
 
 import node from '@astrojs/node';
+import vercel from "@astrojs/vercel"
 import { spectreDark } from './src/ec-theme';
 
 import react from '@astrojs/react'
@@ -25,7 +26,7 @@ const {
 
 // https://astro.build/config
 const config = defineConfig({
-  site: 'https://spectre.louisescher.dev',
+  site: 'https://staging.arc.aten2005.dev',
   output: 'static',
   integrations: [
     react(),
@@ -51,9 +52,7 @@ const config = defineConfig({
       },
     })
   ],
-  adapter: node({
-    mode: 'standalone'
-  })
+  adapter: vercel(),
 });
 
 export default config;

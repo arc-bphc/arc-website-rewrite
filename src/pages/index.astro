@@ -33,7 +33,7 @@ const { Content: About } = await render(about!);
 	pagefindIgnore
 >
 	<div slot="hero">
-		<ASCIIText client:load
+		<ASCIIText client:only="react"
 			text='ARC'
 			enableWaves={false}
 			asciiFontSize={8}
