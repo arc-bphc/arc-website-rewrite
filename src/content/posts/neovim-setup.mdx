@@ -1,0 +1,238 @@
+---
+title: "Setting Up Neovim with NvChad on Ubuntu"
+description: "A beginner-friendly guide to installing and configuring Neovim using the powerful NvChad setup on Ubuntu."
+image: "../assets/nvchad-setup.jpg"
+createdAt: 06-09-2025
+draft: false
+tags:
+  - guide
+  - neovim
+  - linux
+  - ubuntu
+  - nvchad
+---
+
+Neovim is a modern rewrite of Vim that adds performance improvements and extensibility. Paired with [NvChad](https://nvchad.com/), a feature-rich and highly customizable Neovim config, you can create a beautiful and powerful coding environment.
+
+This guide walks you through setting up Neovim with NvChad on **Ubuntu 22.04 or later**.
+
+---
+
+## Why NvChad?
+
+* 🎨 **Beautiful UI**: Out-of-the-box themes, file trees, and icons.
+* ⚡ **Fast**: Built with performance in mind.
+* 🧩 **Modular**: Easy to add plugins and personalize keybindings.
+* 🛠️ **Pre-configured**: No need to start from scratch.
+
+---
+
+## Prerequisites
+
+* Ubuntu 22.04 or later
+* Basic familiarity with the terminal
+* Git installed:
+
+  ```bash
+  sudo apt update
+  sudo apt install git
+  ```
+
+---
+
+## Step 1: Install Neovim (Latest)
+
+The Ubuntu repo may have an older version, so we'll use the official AppImage or PPA.
+
+### Option 1: AppImage (Recommended for latest stable)
+
+```bash
+wget https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+sudo mv nvim.appimage /usr/local/bin/nvim
+```
+
+Check installation:
+
+```bash
+nvim --version
+```
+
+### Option 2: Use PPA
+
+```bash
+sudo add-apt-repository ppa:neovim-ppa/stable
+sudo apt update
+sudo apt install neovim
+```
+
+---
+
+## Step 2: Install Nerd Fonts (Optional but Recommended)
+
+NvChad uses **icons** that require a patched font like [FiraCode Nerd Font](https://www.nerdfonts.com/font-downloads):
+
+```bash
+mkdir -p ~/.local/share/fonts
+cd ~/.local/share/fonts
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip
+unzip FiraCode.zip
+fc-cache -fv
+```
+
+Then set your terminal to use **FiraCode Nerd Font**.
+
+---
+
+## Step 3: Install NvChad
+
+⚠️ This will override your existing Neovim config at `~/.config/nvim`!
+
+```bash
+git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+nvim
+```
+
+This will trigger NvChad's first-time setup and plugin installation. Wait for it to complete.
+
+---
+Absolutely! According to the official NvChad documentation and community sources:
+
+You can **open the theme selector UI** using this keybinding:
+
+```
+<leader> + t + h
+```
+
+Where `<leader>` is the spacebar by default. ([nvchad.com][1])
+
+A tutorial confirms the sequence more specifically:
+
+```
+Press <Space>, then t, then h
+```
+
+→ Opens the theme selector. ([blog.spoonconsulting.com][2])
+
+If you pick a theme, NvChad prompts:
+
+```
+"Make theme changes permanent?"
+```
+
+Press **`y`** to confirm and update your configuration. ([github.com][3])
+
+---
+
+### ✅ Revised **Step 4: Customize NvChad** with Verified Shortcuts
+
+Replace the old version with:
+
+---
+
+## Step 4: Customize NvChad
+
+NvChad includes a **built-in theme selector** — no manual Lua editing needed for theme changes.
+
+### 🎨 Change Theme Using the Built-in UI
+
+1. Launch Neovim:
+
+   ```bash
+   nvim
+   ```
+
+2. Press:
+
+   ```
+   <Space> → t → h
+   ```
+
+   This opens the **NvChad Theme Selector**.
+
+3. Navigate through the list of available themes (e.g. `onedark`, `gruvbox`, `catppuccin`, `tokyonight`) using arrow keys.
+
+4. Press `Enter` to preview a theme.
+
+5. A confirmation prompt appears. Press **`y`** to make your selection permanent (updates are saved to `chadrc.lua` automatically).
+
+---
+
+### 📁 Optional: Further Customization
+
+If you want to go deeper, manually tweak the config:
+
+```bash
+nvim ~/.config/nvim/lua/custom/chadrc.lua
+```
+
+```lua
+M.ui = {
+  theme = "onedark",
+  transparency = true,
+  statusline = {
+    theme = "minimal",
+  },
+}
+```
+
+Save and reload Neovim to apply your settings.
+
+---
+
+## Step 5: Add Plugins (Optional)
+
+To add new plugins:
+
+1. Create or edit `~/.config/nvim/lua/custom/plugins.lua`
+2. Example: add [vim-surround](https://github.com/tpope/vim-surround)
+
+```lua
+return {
+  {
+    "tpope/vim-surround",
+    lazy = false
+  }
+}
+```
+
+Then restart Neovim and run:
+
+```vim
+:Lazy sync
+```
+
+---
+
+## Step 6: Useful Keybindings
+
+| Action           | Keybinding    |
+| ---------------- | ------------- |
+| File Explorer    | `<leader> e`  |
+| Fuzzy Find Files | `<leader> ff` |
+| Search in Files  | `<leader> fg` |
+| Toggle Terminal  | `<leader> tt` |
+| Save File        | `<leader> w`  |
+| Quit             | `<leader> q`  |
+
+`<leader>` is the spacebar by default.
+
+---
+
+## Troubleshooting
+
+| Issue                        | Solution                                       |
+| ---------------------------- | ---------------------------------------------- |
+| Icons not rendering          | Ensure Nerd Font is installed and selected     |
+| No plugins loading           | Check for errors in `custom/chadrc.lua`        |
+| Errors on launch             | Delete `~/.local/share/nvim` and re-run Neovim |
+| Missing features (LSP, etc.) | Run `:Mason` and install required tools        |
+
+---
+
+## Conclusion
+
+With NvChad, you’ve got a pre-configured Neovim environment that’s fast, modern, and ready to go. Whether you're coding in Python, Rust, or web dev stacks, this setup gives you a powerful IDE-like experience right inside your terminal.
+
+🎉 Happy hacking with Neovim!
+
