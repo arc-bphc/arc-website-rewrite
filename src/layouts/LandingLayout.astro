@@ -4,10 +4,7 @@ import '../styles/globals.css';
 
 import LandingBackground from '../components/LandingBackground.astro';
 import Navbar from '../components/Navbar.astro';
-import GlitchText from '../components/TextAnimations/GlitchText/GlitchText';
-import Particles from '../components/Backgrounds/Particles/Particles';
 
-import LayoutGrid from '../components/LayoutGrid.astro';
 import { name, themeColor, twitterHandle } from 'spectre:globals';
 
 interface Props {
@@ -74,56 +71,9 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 			<div class="hero-container">
 				<slot name="hero"/>
 			</div>
-			<GlitchText
-				speed={.5}
-				enableOnHover={false}
-				className='trailer'
-				fontSize={1.5}
-			>
-				{"Coming soon..."}
-			</GlitchText>
 			<slot/>
 			<slot name="404" />
 		</main>
 		<LandingBackground />
 	</body>
 </html>
-<style>
-	.hero-container {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 14rem); /* Full screen hero section */
-  overflow: hidden;
-}
-
-.hero-container canvas {
-	height: 100%;
-	width: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.trailer{
-	margin: auto;
-	font-family: 'Geist Mono', monospace;
-}
-
-@media screen and (max-width: 1380px) {
-	.hero-container {
-
-	}
-}
-
-@media screen and (max-width: 640px) {
-	main {
-		height: 100dvh;
-	}
-	.hero-container{
-					height: 20rem;
-					margin: auto 0;
-					margin-top: calc(50svh - 14rem)
-	}
-}
-</style>
-
