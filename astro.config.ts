@@ -5,9 +5,9 @@ import expressiveCode from 'astro-expressive-code';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import spectre from './package/src';
+import tailwindcss from '@tailwindcss/vite'
 
 import node from '@astrojs/node';
-import vercel from "@astrojs/vercel"
 import { spectreDark } from './src/ec-theme';
 
 import react from '@astrojs/react'
@@ -50,9 +50,11 @@ const config = defineConfig({
           title: 'Projects'
         }
       },
-    })
+    }),
   ],
-  adapter: vercel(),
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });
 
 export default config;

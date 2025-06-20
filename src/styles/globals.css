@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --primary: #ccff00;
   /* Needed for some hover effects. This is just the R, G and B values of the hex color above */
@@ -6,6 +8,10 @@
   --primary-light: #d9ff4d;
   --primary-lightest: #eaff99;
   --primary-dark: #ccff0080;
+}
+
+*{
+  cursor: none !important;
 }
 
 .overview-list {

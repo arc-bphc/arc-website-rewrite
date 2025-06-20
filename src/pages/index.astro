@@ -1,8 +1,9 @@
 ---
 import '../styles/index.css';
 
-import LandingePage from "../layouts/LandingLayout.astro"
-import GlitchText from '../components/TextAnimations/GlitchText/GlitchText';
+import LandingPage from "../layouts/LandingLayout.astro"
+import OrbitCursor from '../components/Cursors/OrbitCursor'
+import AnimatedHero from '../components/AnimatedHero';
 
 import { getCollection } from 'astro:content';
 import { getEntry } from 'astro:content';
@@ -23,66 +24,23 @@ const [posts, projects, about, workExperience, quickInfo, socials] = await Promi
 // biome-ignore lint/style/noNonNullAssertion: Should always be defined.
 const { Content: About } = await render(about!);
 ---
-<LandingePage
+<OrbitCursor client:only="react"/>
+<LandingPage
 	title={openGraph.home.title || name}
 	description={openGraph.home.description}
 	pagefindIgnore
 >
 	<div slot="hero">
-		<div class="canvas-container">
-			<ASCIIText client:only="react"
-				text='ARC'
-				enableWaves={false}
-				asciiFontSize={8}
-				textColor={"#ccff00"}
-			/>
-		</div>
+		<AnimatedHero client:only="react"/>
 	</div>
-	<GlitchText
+<!-- 	<GlitchText
 		speed={.5}
 		enableOnHover={false}
 		className={'trailer'}
 		fontSize={1.5}
 	>
 		{"Coming soon..."}
-	</GlitchText>
-</LandingePage>
-<style>
-	.canvas-container {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 14rem); /* Full screen hero section */
-  overflow: hidden;
-}
-
-.canvas-container canvas {
-	height: 100%;
-	width: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.trailer{
-	margin: auto;
-	font-family: 'Geist Mono', monospace;
-	margin-left: 25px;
-}
-
-@media screen and (max-width: 1380px) {
-	.canvas-container {
-
-	}
-}
-
-@media screen and (max-width: 640px) {
-	main {
-		height: 100dvh;
-	}
-	.canvas-container{
-					height: 20rem;
-					margin: auto 0;
-					margin-top: calc(50svh - 14rem)
-	}
-}
-</style>
+	</GlitchText> -->
+</LandingPage>
+<div class="bg-red-500 w-50 h-50 z-51 m-96" data-cursor-hover>
+</div>
