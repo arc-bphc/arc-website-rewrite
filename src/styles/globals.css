@@ -14,6 +14,28 @@
   cursor: none !important;
 }
 
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('/fonts/Orbitron.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zen Dots";
+  src: url('/fonts/ZenDots.woff2') format('woff2');
+  font-style: normal;
+  font-display: swap;
+}
 .overview-list {
   list-style-type: none;
   padding: 0;

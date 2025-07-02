@@ -36,16 +36,21 @@ const socials = defineCollection({
   })
 });
 
-const workExperience = defineCollection({
-  loader: file("src/content/work.json"),
-  schema: z.object({
-    id: z.number(),
-    title: z.string(),
-    company: z.string(),
-    duration: z.string(),
-    description: z.string(),
+const members = defineCollection({
+  loader: glob({ base: "src/content/members", pattern: "**/*.{yaml,yml,toml}"}),
+  schema: ({ image }) => z.object({
+    name: z.string(),
+    id: z.string(),
+    image: image(),
+    about : z.string(),
+    branch: z.string(),
+    socials: z.object({
+      github: z.string(),
+      linkedin: z.string(),
+    }),
+
   })
-});
+})
 
 const tags = defineCollection({
   loader: file("src/content/tags.json"),
@@ -87,4 +92,4 @@ const projects = defineCollection({
   })
 });
 
-export const collections = { tags, posts, projects, other, quickInfo, socials, workExperience };
+export const collections = { tags, posts, projects, other, quickInfo, socials, members };

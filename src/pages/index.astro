@@ -1,22 +1,45 @@
 ---
 import '../styles/index.css';
+import '../styles/globals.css'
 
 import LandingPage from "../layouts/LandingLayout.astro"
 import OrbitCursor from '../components/Cursors/OrbitCursor'
-import AnimatedHero from '../components/AnimatedHero';
+import AnimatedHero from '../components/AnimatedHero'
+import TextReveal from "../components/TextAnimations/TextReveal"
+
+import { motion } from "framer-motion"
 
 import { getCollection } from 'astro:content';
 import { getEntry } from 'astro:content';
 import { render } from 'astro:content';
 import { name, openGraph } from 'spectre:globals';
 
-import ASCIIText from '../components/TextAnimations/ASCIIText/ASCIIText';
+import TeamHUD from '../components/TeamHUD';
+import teamImage from '../assets/team.jpg'
+import type { Face } from '../components/TeamHUD';
 
-const [posts, projects, about, workExperience, quickInfo, socials] = await Promise.all([
+import faceCoordinates from "../content/team.json"
+
+const allFaces = await Promise.all(
+	faceCoordinates.map(async (face) => {
+		const metadata = await getEntry('members', face.id)
+		if (metadata){
+			return {
+				...face,
+				metadata
+			}
+		} else {
+			return null
+		}
+	})
+) 
+
+const faces : Face[] = allFaces.filter((f : Face|null) => f !== null)
+
+const [posts, projects, about, quickInfo, socials] = await Promise.all([
 	getCollection('posts', (post) => post.data.draft !== true),
 	getCollection('projects'),
 	getEntry('other', 'about'),
-	getCollection('workExperience'),
 	getCollection('quickInfo'),
 	getCollection('socials')
 ]);
@@ -32,6 +55,9 @@ const { Content: About } = await render(about!);
 >
 	<div slot="hero">
 		<AnimatedHero client:only="react"/>
+		<p class="text-center font-thin font-[orbitron] tracking-widest">
+			The Automation and Robotics Club of BITS Pilani, Hyderabad Campus	
+		</p>
 	</div>
 <!-- 	<GlitchText
 		speed={.5}
@@ -41,6 +67,35 @@ const { Content: About } = await render(about!);
 	>
 		{"Coming soon..."}
 	</GlitchText> -->
+	<div class="w-full flex md:flex-row flex-col items-center justify-center perspective">
+<!-- 		<ScrollVelocity client:only="react"
+			texts={['MEET THE GANG *']}
+			className='font-[orbitron] font-black text-[6rem]'
+			velocity={150}
+			parallaxClassName='w-screen'
+		/> -->
+		<div class="w-full max-w-lg px-8 md:px-0 md:pr-16">
+			<TextReveal client:visible
+				text="Meet the team"
+				className='text-4xl text-center font-semibold font-[orbitron] pb-6 md:text-6xl'
+			/>
+			<p class="text-md">
+				The Automation and Robotics Club (ARC) is a part of the Technical Senate of BITS Pilani, Hyderabad Campus. If inquisitiveness and innovation are your assets, then you've found the right place for yourself. We take up promising challenges, workshops and projects which combine the aspects of electronics, mechanics and programming. The only prerequisite to joining us - the desire to quench curiosity and express yourself
+			</p>
+		</div>
+
+		<div class="w-full py-6 order-first px-8 md:order-last md:px-0 md:py-12">
+			<TeamHUD client:only="react"
+							imageUrl={teamImage.src}
+							originalHeight={teamImage.height}
+							originalWidth={teamImage.width}
+							faces={faces}
+							className='w-full'
+			/>
+		</div>
+	</div>
+
 </LandingPage>
-<div class="bg-red-500 w-50 h-50 z-51 m-96" data-cursor-hover>
-</div>
+
+
+

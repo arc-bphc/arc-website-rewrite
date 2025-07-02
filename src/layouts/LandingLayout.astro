@@ -67,15 +67,14 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 	</head>
 	<body style="overflow: hidden; overflow-y:scroll; position:relative" class="relative flex flex-col items-center">
 		<LandingBackground />
-		<main data-pagefind-ignore={pagefindIgnore} class="fixed">
+		<main data-pagefind-ignore={pagefindIgnore} class="w-full">
 			<Navbar />
-			<div class="hero-container w-full">
+			<div class="hero-container h-svh">
 				<slot name="hero"/>
 			</div>
 			<slot/>
 			<slot name="404" />
 		</main>
-		<div style="height: 200vh;"></div>
 	</body>
 </html>
 <style>

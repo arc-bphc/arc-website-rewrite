@@ -1,0 +1,148 @@
+---
+title: "Dual-Booting Ubuntu 22.04 with Windows 11"
+description: "A step-by-step guide to safely install Ubuntu 22.04 alongside Windows 11 for a flexible dual-boot setup."
+image: "./ubuntu-dualboot.jpg"
+createdAt: 06-07-2025
+draft: false
+tags:
+  - guide
+  - ubuntu
+  - windows
+  - dualboot
+---
+Dual-booting lets you enjoy the best of both worlds—Windows for gaming and general-purpose tasks, and Ubuntu for development, programming, or privacy. This guide walks you through the entire process of installing **Ubuntu 22.04 LTS** alongside an existing **Windows 11** installation.
+
+> ⚠️ This guide assumes you're starting with a system that already has Windows 11 installed.
+
+---
+
+## Why Dual Boot?
+
+* 🧑‍💻 **Development**: Linux provides powerful tools and a lightweight environment for developers.
+* 🧩 **Compatibility**: Use Windows apps that don’t run well in Wine or a VM.
+* 🧠 **Learning**: Learn Linux without sacrificing your existing setup.
+
+---
+
+## What You’ll Need
+
+* A USB drive (8 GB or more)
+* Ubuntu 22.04 ISO (download from [ubuntu.com](https://ubuntu.com/download/desktop))
+* [Rufus](https://rufus.ie/) or [Balena Etcher](https://etcher.io) to make the USB bootable
+* \~30 GB or more of free disk space on your drive
+* A backup of your important Windows data (just in case)
+
+---
+
+## Step 1: Create Free Space on Windows
+
+1. Press `Win + X` → *Disk Management*.
+2. Right-click your main volume (usually C:).
+3. Select **Shrink Volume** and reduce by at least **30 GB**.
+4. Leave this space **unallocated** (don’t format it).
+
+---
+
+## Step 2: Create the Ubuntu Bootable USB
+
+1. Insert your USB stick.
+2. Open Rufus or Etcher.
+3. Select the **Ubuntu ISO** file.
+4. Choose `GPT` partition scheme and `UEFI` target system.
+5. Start the process and wait for it to complete.
+
+---
+
+## Step 3: Disable Fast Boot and Secure Boot (if needed)
+
+1. Open Windows Settings → *System* → *Power & Battery* → *Additional Power Settings*.
+2. Click on **Choose what the power buttons do**.
+3. Uncheck **Turn on fast startup**.
+
+To disable Secure Boot:
+
+1. Reboot and enter BIOS/UEFI (`Del` or `F2` usually).
+2. Look for **Secure Boot** in Boot or Security tab.
+3. Set it to **Disabled**.
+
+> 🔐 Some systems allow Ubuntu to install even with Secure Boot enabled, but disabling it ensures fewer issues.
+
+---
+
+## Step 4: Boot from the USB
+
+1. Reboot and press your boot key (`F12`, `Esc`, etc.).
+2. Choose your USB stick.
+3. Select **Try Ubuntu without installing** to test hardware compatibility (optional).
+4. Click **Install Ubuntu** when ready.
+
+---
+
+## Step 5: Install Ubuntu Alongside Windows
+
+When you reach the “Installation Type” screen:
+
+✅ Choose **“Install Ubuntu alongside Windows Boot Manager”**
+*OR*
+❗ Choose **“Something else”** for manual partitioning (recommended for control):
+
+### Manual Partitioning:
+
+* Select the unallocated space.
+
+* Click **+** and create:
+
+  * `/` (root) → ext4 → 25+ GB
+  * `swap` (optional if < 8 GB RAM) → 2-4 GB
+  * `/home` (optional) → remaining space
+
+* Install the bootloader to the **same disk** (usually `/dev/sda`, not a partition like `/dev/sda1`).
+
+Click **Install Now**, follow the prompts, and reboot when done.
+
+---
+
+## Step 6: Bootloader and First Boot
+
+After installation, you’ll see **GRUB**, the boot menu that lets you choose between Ubuntu and Windows.
+
+If you don’t see GRUB:
+
+1. Boot into Ubuntu USB again.
+2. Open Terminal and run:
+
+   ```bash
+   sudo mount /dev/sdXY /mnt  # replace with your root partition
+   sudo grub-install --boot-directory=/mnt/boot /dev/sdX  # replace with your disk
+   sudo update-grub
+   ```
+
+---
+
+## Post-Install Tips
+
+* Use `Grub Customizer` to adjust boot order (Ubuntu first or Windows first).
+* Update Ubuntu regularly:
+
+  ```bash
+  sudo apt update && sudo apt upgrade
+  ```
+* Windows updates may override GRUB—just reinstall GRUB using live USB if that happens.
+
+---
+
+## Troubleshooting
+
+| Problem                    | Fix                                                |
+| -------------------------- | -------------------------------------------------- |
+| No GRUB after reboot       | Boot live USB and reinstall GRUB                   |
+| Ubuntu doesn’t boot        | Check if Secure Boot is still enabled              |
+| Can’t shrink Windows drive | Disable hibernation and system restore, then retry |
+
+---
+
+## Conclusion
+
+With your new dual-boot setup, you can enjoy the flexibility of Linux development without giving up Windows functionality. Whether you're compiling ROS code or playing games, your system is now ready to handle both.
+
+🎉 Happy dual-booting!
