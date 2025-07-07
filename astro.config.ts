@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import spectre from './package/src';
 import tailwindcss from '@tailwindcss/vite'
 
-import node from '@astrojs/node';
+import netlify from "@astrojs/netlify"
 import { spectreDark } from './src/ec-theme';
 
 import react from '@astrojs/react'
@@ -27,6 +27,7 @@ const {
 // https://astro.build/config
 const config = defineConfig({
   site: 'https://staging.arc.aten2005.dev',
+  adapter: netlify(),
   output: 'static',
   integrations: [
     react(),
