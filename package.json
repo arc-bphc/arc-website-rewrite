@@ -5,7 +5,7 @@
   "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist/client",
+    "build": "astro build && pagefind --site dist",
     "start": "node dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro",
