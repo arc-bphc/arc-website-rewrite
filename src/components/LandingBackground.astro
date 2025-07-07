@@ -1,14 +1,14 @@
 ---
 import Particles from '../components/Backgrounds/Particles/Particles';
+import "../styles/globals.css"
 ---
 
-<div class="background">
+<div class="background fixed w-screen h-screen z-0">
 	<Particles client:only="react"/>
 </div>
 
 <style>
 	.background {
-		position: absolute;
 		width: 100vw;
 		height: 100vh;
 		top: 0;

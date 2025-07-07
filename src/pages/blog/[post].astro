@@ -10,6 +10,7 @@ import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
 import { getCollection } from "astro:content";
 import { giscus } from 'spectre:globals';
+import OrbitCursor from '../../components/Cursors/OrbitCursor';
 
 /**
  * Estimates the time it takes to read a post in minutes based on:
@@ -46,6 +47,7 @@ export const getStaticPaths = (async () => {
 const { Content, headings } = await render(post);
 ---
 
+<OrbitCursor client:only="react"/>
 <Layout
   title={post.data.title}
   description={post.data.description}

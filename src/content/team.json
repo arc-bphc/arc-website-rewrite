@@ -1,0 +1,102 @@
+[
+  {
+    "id": "2024/xx",
+    "location": { "x": 1438, "y": 263 },
+    "bounds": { "x": 1390, "y": 195, "width": 96, "height": 136 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 935, "y": 494 },
+    "bounds": { "x": 885, "y": 430, "width": 101, "height": 128 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1255, "y": 596 },
+    "bounds": { "x": 1206, "y": 531, "width": 98, "height": 131 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1606, "y": 276 },
+    "bounds": { "x": 1569, "y": 229, "width": 74, "height": 94 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1100, "y": 569 },
+    "bounds": { "x": 1055, "y": 510, "width": 91, "height": 118 }
+  },
+  {
+    "id": "2024/20240478",
+    "location": { "x": 1337, "y": 258 },
+    "bounds": { "x": 1294, "y": 202, "width": 87, "height": 112 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1728, "y": 335 },
+    "bounds": { "x": 1683, "y": 285, "width": 90, "height": 101 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1025, "y": 240 },
+    "bounds": { "x": 986, "y": 186, "width": 79, "height": 109 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 669, "y": 348 },
+    "bounds": { "x": 629, "y": 303, "width": 81, "height": 90 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 909, "y": 285 },
+    "bounds": { "x": 868, "y": 235, "width": 83, "height": 101 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1955, "y": 257 },
+    "bounds": { "x": 1913, "y": 207, "width": 85, "height": 101 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1127, "y": 361 },
+    "bounds": { "x": 1089, "y": 305, "width": 77, "height": 112 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1361, "y": 557 },
+    "bounds": { "x": 1315, "y": 501, "width": 92, "height": 113 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 2129, "y": 269 },
+    "bounds": { "x": 2086, "y": 221, "width": 86, "height": 97 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1819, "y": 581 },
+    "bounds": { "x": 1775, "y": 522, "width": 88, "height": 118 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1267, "y": 358 },
+    "bounds": { "x": 1228, "y": 303, "width": 79, "height": 111 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1769, "y": 476 },
+    "bounds": { "x": 1727, "y": 423, "width": 84, "height": 106 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 2587, "y": 268 },
+    "bounds": { "x": 2553, "y": 221, "width": 68, "height": 95 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 1592, "y": 538 },
+    "bounds": { "x": 1541, "y": 476, "width": 103, "height": 125 }
+  },
+  {
+    "id": "2024/xx",
+    "location": { "x": 2931, "y": 76 },
+    "bounds": { "x": 2890, "y": 29, "width": 82, "height": 95 }
+  }
+]

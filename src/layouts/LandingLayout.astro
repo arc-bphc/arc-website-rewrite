@@ -65,15 +65,20 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
 	</head>
-	<body>
-		<main data-pagefind-ignore={pagefindIgnore}>
+	<body style="overflow: hidden; overflow-y:scroll; position:relative" class="relative flex flex-col items-center">
+		<LandingBackground />
+		<main data-pagefind-ignore={pagefindIgnore} class="w-full">
 			<Navbar />
-			<div class="hero-container">
+			<div class="hero-container h-svh">
 				<slot name="hero"/>
 			</div>
 			<slot/>
 			<slot name="404" />
 		</main>
-		<LandingBackground />
 	</body>
 </html>
+<style>
+	* {
+		cursor: none !important;
+	}
+</style>

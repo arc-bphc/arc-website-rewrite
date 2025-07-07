@@ -10,6 +10,7 @@ import { render } from "astro:content";
 import { getCollection } from "astro:content";
 import ImageGlow from "../../components/ImageGlow.astro";
 import Icon from "../../components/Icon.astro";
+import OrbitCursor from '../../components/Cursors/OrbitCursor';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -27,6 +28,7 @@ console.log(project.data.info);
 
 const { Content } = await render(project);
 ---
+<OrbitCursor client:only="react"/>
 <Layout
   title={project.data.title}
   description={project.data.description}
