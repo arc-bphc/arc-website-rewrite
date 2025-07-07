@@ -4,6 +4,9 @@ dist/
 # generated types
 .astro/
 
+# netlify build files
+.netlify/
+
 # dependencies
 node_modules/
 
