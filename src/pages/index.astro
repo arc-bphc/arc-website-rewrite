@@ -19,6 +19,7 @@ import teamImage from '../assets/team.png'
 import type { Face } from '../components/TeamHUD';
 
 import faceCoordinates from "../content/team.json"
+import { getImage } from 'astro:assets';
 
 const allFaces = await Promise.all(
 	faceCoordinates.map(async (face) => {
@@ -26,7 +27,8 @@ const allFaces = await Promise.all(
 		if (metadata){
 			return {
 				...face,
-				metadata
+				metadata,
+				image: await getImage({src: metadata.data.image})
 			}
 		} else {
 			return null

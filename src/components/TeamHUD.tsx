@@ -6,6 +6,7 @@ import type { CollectionEntry } from "astro:content"
 import profileMask from "../assets/profile-mask.png"
 import DecryptedText from "./TextAnimations/DecryptedText/DecryptedText"
 import "../styles/globals.css"
+import type { GetImageResult } from "astro"
 
 
 export interface Face {
@@ -13,6 +14,7 @@ export interface Face {
   location: { x: number; y: number }
   bounds: { x: number; y: number; width: number; height: number }
   metadata: CollectionEntry<'members'>
+  image: GetImageResult
 }
 
 interface Props {
@@ -214,7 +216,7 @@ function HUDOverlay({ face, containerWidth, containerHeight }: { face: Face; con
       >
         {/* HUD Styling */}
         <div className="w-24 inset-0 relative mr-2">
-				  <img src={face.metadata.data.image.src} alt="headshot" className="w-20 aspect-[3/4] z-10 object-cover"
+				  <img src={face.image.src} srcSet={face.image.src} alt="headshot" className="w-20 aspect-[3/4] z-10 object-cover"
             style={{
               maskSize: "cover",
               maskImage: `url(${profileMask.src})`,
