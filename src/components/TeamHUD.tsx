@@ -71,7 +71,7 @@ export default function TeamHUD({ faces, originalWidth, originalHeight, imageUrl
 
   return (
     <>
-      <div className={`relative rounded-xl  w-full overflow-hidden border border-blue-400/30 ${className}`} style={{ aspectRatio: `${originalWidth}/${originalHeight}` }}>
+      <div className={`relative rounded-md w-full overflow-hidden ${className}`} style={{ aspectRatio: `${originalWidth}/${originalHeight}` }}>
         <img
           ref={imageRef}
           src={imageUrl}
@@ -214,7 +214,7 @@ function HUDOverlay({ face, containerWidth, containerHeight }: { face: Face; con
       >
         {/* HUD Styling */}
         <div className="w-24 inset-0 relative mr-2">
-				  <img src={face.metadata.data.image.src} alt="headshot" className="w-20 aspect-[3/4] z-10"
+				  <img src={face.metadata.data.image.src} alt="headshot" className="w-20 aspect-[3/4] z-10 object-cover"
             style={{
               maskSize: "cover",
               maskImage: `url(${profileMask.src})`,
