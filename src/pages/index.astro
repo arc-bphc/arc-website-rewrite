@@ -53,6 +53,7 @@ const { Content: About } = await render(about!);
 <LandingPage
 	title={openGraph.home.title || name}
 	description={openGraph.home.description}
+	preloadImages={faces.map(face => face.image.src)}
 	pagefindIgnore
 >
 	<div slot="hero">
