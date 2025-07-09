@@ -1,0 +1,1 @@
+![[Control Manual_PDF/Basic_control _manual.pdf]]
