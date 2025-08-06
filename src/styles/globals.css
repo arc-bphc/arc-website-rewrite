@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 :root {
   --primary: #ccff00;
@@ -8,10 +10,6 @@
   --primary-light: #d9ff4d;
   --primary-lightest: #eaff99;
   --primary-dark: #ccff0080;
-}
-
-*{
-  cursor: none !important;
 }
 
 @font-face {
@@ -197,4 +195,8 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.katex-html {
+  display: none;
 }
