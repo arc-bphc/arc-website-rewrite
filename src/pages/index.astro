@@ -15,10 +15,11 @@ import { render } from 'astro:content';
 import { name, openGraph } from 'spectre:globals';
 
 import TeamHUD from '../components/TeamHUD';
-import teamImage from '../assets/team.jpg'
+import teamImage from '../assets/team.png'
 import type { Face } from '../components/TeamHUD';
 
 import faceCoordinates from "../content/team.json"
+import { getImage } from 'astro:assets';
 
 const allFaces = await Promise.all(
 	faceCoordinates.map(async (face) => {
@@ -26,7 +27,8 @@ const allFaces = await Promise.all(
 		if (metadata){
 			return {
 				...face,
-				metadata
+				metadata,
+				image: await getImage({src: metadata.data.image})
 			}
 		} else {
 			return null
@@ -51,6 +53,7 @@ const { Content: About } = await render(about!);
 <LandingPage
 	title={openGraph.home.title || name}
 	description={openGraph.home.description}
+	preloadImages={faces.map(face => face.image.src)}
 	pagefindIgnore
 >
 	<div slot="hero">
@@ -92,8 +95,16 @@ const { Content: About } = await render(about!);
 							faces={faces}
 							className='w-full'
 			/>
+			<p class="hidden md:block text-xs w-full text-center p-2 text-muted text-gray-200">
+				Hover over the faces to find out more!
+			</p>
 		</div>
 	</div>
+	<style>
+		*{
+				cursor: none !important;
+			}
+	</style>
 
 </LandingPage>
 

@@ -16,9 +16,10 @@ interface Props {
 		createdAt: Date;
 		updatedAt?: Date;
 	};
+	preloadImages?: string[]
 }
 
-const { title, description, image, pagefindIgnore, article } = Astro.props;
+const { title, description, image, pagefindIgnore, article, preloadImages } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -30,6 +31,13 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 
 		<title>{title}</title>
+
+		{preloadImages && (
+			preloadImages.map(src => (
+				<link rel="preload" as="image" href={src}>
+			))
+		)}
+
 		{description && <meta name="description" content={description} />}
 		<meta name="theme-color" content={themeColor}>
 

@@ -10,6 +10,9 @@ import tailwindcss from '@tailwindcss/vite'
 import netlify from "@astrojs/netlify"
 import { spectreDark } from './src/ec-theme';
 
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
 import react from '@astrojs/react'
 
 const {
@@ -55,6 +58,10 @@ const config = defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()]
+  },
+  markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex]
   }
 });
 
