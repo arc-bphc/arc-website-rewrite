@@ -95,8 +95,16 @@ const { Content: About } = await render(about!);
 							faces={faces}
 							className='w-full'
 			/>
+			<p class="hidden md:block text-xs w-full text-center p-2 text-muted text-gray-200">
+				Hover over the faces to find out more!
+			</p>
 		</div>
 	</div>
+	<style>
+		*{
+				cursor: none !important;
+			}
+	</style>
 
 </LandingPage>
 
