@@ -6,12 +6,10 @@ import Card from "../components/Card.astro";
 import Icon from "../components/Icon.astro";
 import Layout from "../layouts/Layout.astro";
 import { openGraph } from 'spectre:globals';
-import OrbitCursor from '../components/Cursors/OrbitCursor';
 
 const posts = await getCollection('posts', (post) => post.data.draft !== true);
 const tags = posts.flatMap((post) => post.data.tags.map((tag) => tag.id));
 ---
-<OrbitCursor client:only="react"/>
 <Layout
   title={openGraph.blog.title || "Blog"}
   description={openGraph.blog.description}

@@ -6,11 +6,9 @@ import Card from "../components/Card.astro";
 import Icon from "../components/Icon.astro";
 import Layout from "../layouts/Layout.astro";
 import { openGraph } from 'spectre:globals';
-import OrbitCursor from '../components/Cursors/OrbitCursor'
 
 const projects = await getCollection('projects');
 ---
-<OrbitCursor client:only="react"/>
 <Layout
 	title={openGraph.projects.title || "Projects"}
 	description={openGraph.projects.description}
