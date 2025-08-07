@@ -6,6 +6,7 @@ import LandingPage from "../layouts/LandingLayout.astro"
 import OrbitCursor from '../components/Cursors/OrbitCursor'
 import AnimatedHero from '../components/AnimatedHero'
 import TextReveal from "../components/TextAnimations/TextReveal"
+import CircularGallery from '../components/Components/CircularGallery/CircularGallery';
 
 import { motion } from "framer-motion"
 
@@ -20,6 +21,7 @@ import type { Face } from '../components/TeamHUD';
 
 import faceCoordinates from "../content/team.json"
 import { getImage } from 'astro:assets';
+import type { Image } from 'astro:assets';
 
 const allFaces = await Promise.all(
 	faceCoordinates.map(async (face) => {
@@ -38,6 +40,36 @@ const allFaces = await Promise.all(
 
 const faces : Face[] = allFaces.filter((f : Face|null) => f !== null)
 
+// Helper to generate titles from filenames
+function getLabelFromPath(path: string): string {
+	return path
+		.split('/')
+		.pop()
+		?.replace(/\.\w+$/, '') // remove extension
+		.replace(/[-_]/g, ' ')
+		.replace(/\b\w/g, (l) => l.toUpperCase()) ?? 'Image';
+}
+
+const projectImages = import.meta.glob('../content/landingImages/*.{jpg,png,jpeg}', { eager: true });
+
+const galleryItems = await Promise.all(
+  Object.entries(projectImages).map(async ([path, mod] : any) => {
+    const src = mod.default;
+
+    const optimized = await getImage({
+      src,
+      width: 400,
+      format: 'webp',
+    });
+
+    return {
+      image: optimized.src,
+      text: getLabelFromPath(path),
+    };
+  })
+);
+
+
 const [posts, projects, about, quickInfo, socials] = await Promise.all([
 	getCollection('posts', (post) => post.data.draft !== true),
 	getCollection('projects'),
@@ -45,6 +77,8 @@ const [posts, projects, about, quickInfo, socials] = await Promise.all([
 	getCollection('quickInfo'),
 	getCollection('socials')
 ]);
+
+
 
 // biome-ignore lint/style/noNonNullAssertion: Should always be defined.
 const { Content: About } = await render(about!);
@@ -62,28 +96,14 @@ const { Content: About } = await render(about!);
 			The Automation and Robotics Club of BITS Pilani, Hyderabad Campus	
 		</p>
 	</div>
-<!-- 	<GlitchText
-		speed={.5}
-		enableOnHover={false}
-		className={'trailer'}
-		fontSize={1.5}
-	>
-		{"Coming soon..."}
-	</GlitchText> -->
 	<div class="w-full flex md:flex-row flex-col items-center justify-center perspective">
-<!-- 		<ScrollVelocity client:only="react"
-			texts={['MEET THE GANG *']}
-			className='font-[orbitron] font-black text-[6rem]'
-			velocity={150}
-			parallaxClassName='w-screen'
-		/> -->
 		<div class="w-full max-w-lg px-8 md:px-0 md:pr-16">
 			<TextReveal client:visible
 				text="Meet the team"
 				className='text-4xl text-center font-semibold font-[orbitron] pb-6 md:text-6xl'
 			/>
 			<p class="text-md">
-				The Automation and Robotics Club (ARC) is a part of the Technical Senate of BITS Pilani, Hyderabad Campus. If inquisitiveness and innovation are your assets, then you've found the right place for yourself. We take up promising challenges, workshops and projects which combine the aspects of electronics, mechanics and programming. The only prerequisite to joining us - the desire to quench curiosity and express yourself
+				The Automation and Robotics Club (ARC) is a part of the Technical Senate of BITS Pilani, Hyderabad Campus. If inquisitiveness and innovation are your assets, then you've found the right place for yourself.
 			</p>
 		</div>
 
@@ -98,6 +118,24 @@ const { Content: About } = await render(about!);
 			<p class="hidden md:block text-xs w-full text-center p-2 text-muted text-gray-200">
 				Hover over the faces to find out more!
 			</p>
+		</div>
+	</div>
+	<div class="w-full flex md:flex-row-reverse flex-col items-center justify-center perspective">
+		<div class="w-full max-w-lg px-8 md:px-0 md:pl-16">
+			<TextReveal client:visible
+				text="What We Do"
+				className='text-4xl text-center font-semibold font-[orbitron] pb-6 md:text-6xl'
+			/>
+			<p class="text-md">
+				We take up promising challenges, workshops and projects which combine the aspects of electronics, mechanics and programming. The only prerequisite to joining us - the desire to quench curiosity and express yourself
+			</p>
+		</div>
+
+		<div class="w-full py-6 order-first md:px-8 md:order-last md:px-0 md:py-12 relative z-50 h-[500px] md:h-[600px]" style="
+  mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
+">
+		<CircularGallery client:load items={galleryItems} bend={1} textColor="#ffffff" borderRadius={0.05} scrollEase={.04}/>
 		</div>
 	</div>
 	<style>
