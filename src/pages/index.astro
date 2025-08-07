@@ -135,7 +135,7 @@ const { Content: About } = await render(about!);
   mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
 ">
-		<CircularGallery client:load items={galleryItems} bend={1} textColor="#ffffff" borderRadius={0.05} scrollEase={.04}/>
+		<CircularGallery client:visible items={galleryItems} bend={1} textColor="#ffffff" borderRadius={0.05} scrollEase={.04}/>
 		</div>
 	</div>
 	<style>
