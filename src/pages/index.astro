@@ -37,8 +37,9 @@ const allFaces = await Promise.all(
 		}
 	})
 ) 
-
-const faces : Face[] = allFaces.filter((f : Face|null) => f !== null)
+//Replace with new faces later!!
+//const faces : Face[] = allFaces.filter((f : Face|null) => f !== null)
+const faces : Face[] = []
 
 // Helper to generate titles from filenames
 function getLabelFromPath(path: string): string {
@@ -115,9 +116,10 @@ const { Content: About } = await render(about!);
 							faces={faces}
 							className='w-full'
 			/>
-			<p class="hidden md:block text-xs w-full text-center p-2 text-muted text-gray-200">
+			<!-- Uncomment later -->
+			<!-- <p class="hidden md:block text-xs w-full text-center p-2 text-muted text-gray-200">
 				Hover over the faces to find out more!
-			</p>
+			</p> -->
 		</div>
 	</div>
 	<div class="w-full h-12"></div>
