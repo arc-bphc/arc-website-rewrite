@@ -7,6 +7,7 @@ import OrbitCursor from '../components/Cursors/OrbitCursor'
 import AnimatedHero from '../components/AnimatedHero'
 import TextReveal from "../components/TextAnimations/TextReveal"
 import CircularGallery from '../components/Components/CircularGallery/CircularGallery';
+import Banner from "../components/Banner"
 
 import { motion } from "framer-motion"
 
@@ -92,8 +93,21 @@ const { Content: About } = await render(about!);
 	pagefindIgnore
 >
 	<div slot="hero">
+		<Banner 
+			autoFill={true}
+			pauseOnHover={true}
+			className='text-lg font-[geist_mono]'
+			client:only="react">
+			<span class="px-8 bg-[#d9ff4d]/10">
+				<a 
+				target="_blank" 
+				href="https://docs.google.com/forms/d/e/1FAIpQLSfzfmkIqOTKOu8Dia3HLPbH6621T-O7AQ344ssGDiZu3an4Ew/viewform?usp=dialog">
+				Round 1 Inductions open NOW! Click here to apply!
+				</a>
+			</span>
+		</Banner>
 		<AnimatedHero client:only="react"/>
-		<p class="text-center font-thin font-[orbitron] tracking-widest">
+		<p class="text-center font-thin font-[orbitron] tracking-widest pt-0 mt-0">
 			The Automation and Robotics Club of BITS Pilani, Hyderabad Campus	
 		</p>
 	</div>
