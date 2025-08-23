@@ -95,9 +95,16 @@ const { Content: About } = await render(about!);
 	<div slot="hero">
 		<Banner 
 			autoFill={true}
+			pauseOnHover={true}
 			className='text-lg'
 			client:only="react">
-			<span class="px-8 bg-[#d9ff4d]/10"><a href="">Round 1 Inductions open NOW! Click here to apply!</a></span>
+			<span class="px-8 bg-[#d9ff4d]/10">
+				<a 
+				target="_blank" 
+				href="https://docs.google.com/forms/d/e/1FAIpQLSfzfmkIqOTKOu8Dia3HLPbH6621T-O7AQ344ssGDiZu3an4Ew/viewform?usp=dialog">
+				Round 1 Inductions open NOW! Click here to apply!
+				</a>
+			</span>
 		</Banner>
 		<AnimatedHero client:only="react"/>
 		<p class="text-center font-thin font-[orbitron] tracking-widest pt-0 mt-0">
