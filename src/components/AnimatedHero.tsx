@@ -13,7 +13,7 @@ export default function AnimatedHero(){
 
 
 	return(
-		<motion.div className="canvas-container relative w-full h-[20rem] m-0 mt-[calc(50svh-18rem)] md:m-0 md:h-[calc(100vh_-_10rem)] overflow-hidden">
+		<motion.div className="canvas-container relative w-full h-[20rem] m-0 mt-[calc(50svh-18rem)] md:m-0 md:h-[calc(100vh_-_12rem)] overflow-hidden">
 			<ASCIIText
 				text='ARC'
 				enableWaves={false}
