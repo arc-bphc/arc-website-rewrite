@@ -12,11 +12,24 @@ tags:
   - xiaomi
 ---
 
+import { Image } from "astro:assets";
+import nano from "./cyberone.webp";
+
 ## Meet "CyberOne"!
 
 In 2000, Honda introduced the world to ASIMO, the first credible bi-pedal robot. ASIMO, an abbreviation of Advanced Step in Innovative Mobility, was a culmination of nearly two decades of research and the progenitor of various experimental prototypes named E0, E1, and so on till E6. ASIMO proceeded to make multiple appearances on tech shows and world events until its announced retirement in 2018. ASIMO's primary purpose was to serve as a beacon for further research and development on robotics and could do various tasks with a fair amount of dexterity.
 
-![nano](./cyberone.webp)
+<Image
+  src={nano}
+  alt="nano"
+  width={nano.width/0.9}
+  height={nano.height/0.9}
+  style={{
+    borderRadius: "8px",
+    margin: "1rem auto",
+    display: "block"
+  }}
+/>
 
 Fast forward 22 years to today, tech and electronics goliath Xiaomi has launched its own bi-pedal robot, the CyberOne. The CyberOne exhibits the nature of robotics in today's day and age that a non-specialized company like Xiaomi has entered the field. Like ASIMO, Xiaomi says that CyberOne's primary goal is to serve as a marketing tool and a platform for further research. As for the capabilities of the CyberOne, it has AI-based interaction algorithms that enable it to discern between 85 different types of environmental sounds and 45 different categories of human emotion. It can sense its environment and comprehend it using these elements to perceive 3D space and identify people, movements, and expressions. Additionally, it has a self-developed MiAI vocal emotion identification engine and MiAI environment semantics recognition engine that enable CyberOne to detect a person's "happiness." The CyberOne's body contains 13 joints and a total of 21 degrees of freedom, with each degree of freedom having a response time of 0.5 milliseconds. Its upper limb actuators can function with precision of up to 1Nm for a delicate touch and have an output torque of up to 30Nm. Actuators with an instantaneous peak torque of up to 300Nm power the legs of the robot. The CyberOne is expected to cost anywhere between 600,000 and 700,000 yuan.
 

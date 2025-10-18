@@ -1,6 +1,6 @@
 ---
 title: "Robotic Fabrics"
-description: "A multi-purpose, AI-powered service robot series featuring advanced perception, mobility, and interactive capabilities."
+description: "A textile integrated with sensors and actuators, allowing it to sense its environment."
 image: "./Red.webp"
 createdAt: 2022-09-29
 draft: false
@@ -10,6 +10,10 @@ tags:
   - robotics
   - sensors
 ---
+
+import { Image } from "astro:assets";
+import blue from "./Bluefabric.webp";
+import medic from "./Medic.webp";
 
 ## What is a "robotic fabric"?
 
@@ -23,7 +27,17 @@ A robotic fabric is essentially a fabric that includes applications like **actua
 
 Until recently, robotic fabrics were attached to **external machines** that modulate factors inside them, such as shape, sensors, or air pressure. Now, the emergence of fibers that can sense and alter structurally means that engineers can impart **automatic functions** into textiles — and open up a world of possibilities. One such innovation is the concept of **breathable garments.**
 
-![blue](./Bluefabric.webp)
+<Image
+  src={blue}
+  alt="blue"
+  width={blue.width / 2.4}
+  height={blue.height / 2.4}
+  style={{
+    borderRadius: "8px",
+    margin: "1rem auto",
+    display: "block"
+  }}
+/>
 
 Breathable garments are new types of fabrics that could help athletes and performers train their breathing and could be developed further to help **hospital patients.** MIT researchers have created clothing that senses how much it is being stretched/compressed and provides **immediate tactile feedback** through pressure, stretch, or vibration. They contain a fluid channel in the center, which gets activated as the system pressurizes and **releases compressed air/water** into the drain, allowing the textile to act as an **artificial muscle.**
 
@@ -31,7 +45,17 @@ Researchers envision that it could help train singers or athletes to control the
 
 A multidisciplinary group from Wyss Institute for biologically inspired engineering (Harvard) has developed **Smart Thermally Actuating Textiles (STATs)** — soft textile robots that could enable new therapies for **injury rehabilitation.** They induce electrical liquid-vapor phase change as a response to disturbance. They can prevent injuries from happening in the first place by applying forces at **specific frequencies,** for example, preventing pressure sores in bedridden / wheelchair-using people.
 
-![medic](./Medic.webp)
+<Image
+  src={medic}
+  alt="medic"
+  width={medic.width}
+  height={medic.height}
+  style={{
+    borderRadius: "8px",
+    margin: "1rem auto",
+    display: "block"
+  }}
+/>
 
 Researchers at Yale University have been working on the uses of robotic fabrics in **space travel,** for instance, **compression garments.** They have developed a specific type of material that includes properties like actuation, sensing, and variable stiffness, while at the same time retaining all the generic properties of a soft fabric like flexibility, breathability, compactness, and low weight.
 

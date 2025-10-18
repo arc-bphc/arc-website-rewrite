@@ -11,6 +11,9 @@ tags:
   - warehouse robotics
 ---
 
+import { Image } from "astro:assets";
+import proteus from "./Amazon-Proteus-1.webp";
+
 On the 5th of August 2022, Amazon announced that they had entered into a merger to acquire the company iRobot, known for Roomba, the vacuum cleaning robot that has become synonymous with typical households these days. According to the merger, Amazon will acquire iRobot for a price of *61 per share in an all-cash transaction, totalling around 1.7 billion,* subject to approval by the iRobot shareholders. Although Amazon isn't known to the ordinary person as a robotics-oriented company, this isn't their first foray into the field. In fact, robotics is deep-rooted in the functioning of the company, with Amazon Robotics being a significant part of the research and development of the company and with their projects, such as Astro, Proteus, and Cardinal.
 
 ## What is "iRobot"?
@@ -23,7 +26,17 @@ iRobot was founded by three MIT Artificial Intelligence lab members in 1990 as a
 
 Despite not being renowned for its prowess in the field of robotics, Amazon is pretty well involved in the domain. In 2012, Amazon acquired Kiva Systems, a start-up founded in 2003 that specialized in warehouse and inventory robotics, and rebranded it as Amazon Robotics. This division is dedicated to this purpose and develops sophisticated machinery and software to optimize efficiency in pickup and delivery centres, warehouses etc. They are also known for using AI and Machine Learning to automate critical aspects of the customer fulfilment process. Besides Amazon Robotics, the company has also made multiple investments in developing other products like Astro and Proteus. Amazon launched the Astro, a home monitoring robot, in September 2021. This ambitious project is likened to a canine pet, moving around the house doing various tasks like setting reminders and routines, playing music and television etc. In June 2022, Amazon unveiled their first fully autonomous mobile robot, the Proteus. Proteus autonomously moves through facilities using advanced safety, perception, and navigation technology developed by Amazon. The robot was built to be automatically directed to perform its work and move around employees. It does not need to be confined to restricted areas.
 
-![proteus](./Amazon-Proteus-1.webp)
+<Image
+  src={proteus}
+  alt="proteus"
+  width={proteus.width / 1.5}
+  height={proteus.height / 1.5}
+  style={{
+    borderRadius: "8px",
+    margin: "1rem auto",
+    display: "block"
+  }}
+/>
 
 ---
 

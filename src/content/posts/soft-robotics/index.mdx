@@ -11,6 +11,11 @@ tags:
   - sensors
 ---
 
+import { Image } from "astro:assets";
+import tentacles from "./giphy_0-5.gif";
+import starfish from "./starfish.gif";
+import fabric from "./pnas-robotic-fabric2.webp";
+
 ## What is a "Robot"?
 
 When you see the word **“ROBOT”**, what is the first thing that pops up in your mind? A huge clanky humanoid with bright vibrant lights attached to its head and a monotonous baritone maybe. Well, that might not always be the case. Recent research and developments have paved way for a new subfield of robotics which is significantly different from the conventional perception of what a “robot” is.
@@ -23,13 +28,33 @@ The field in context is **‘soft robotics’**. In this field, rather than usin
 
 “The inspiration for soft robotic machines is the movement of marine organisms, namely **octopuses**”, say scientists. These organisms have something called **embodied intelligence**, which enables them to function on a day to day basis without applying any logical thinking. If this could be transposed to robots, the embodied intelligence can give them a huge edge and minimise the **extensive programming** otherwise needed even for a fairly simple activity like opening a jar.
 
-![tentacles](./giphy_0-5.gif)
+<Image
+  src={tentacles}
+  alt="tentacles"
+  width={tentacles.width}
+  height={tentacles.height}
+  style={{
+    borderRadius: "8px",
+    margin: "1rem auto",
+    display: "block"
+  }}
+/>
 
 The main demerit of conventional robots is that they are programmed to the last dot on what they need to do. What makes them precise and strong also makes them **ridiculously dangerous** in the real world as their body cannot reform or adjust to interactions with the real world. Soft robotics emphasizes not on making super precise machines but **adaptable ones** that can face unexpected situations in the real world.
 
 A soft robot consists of a flexible body made of material like rubber, and an **actuator** which controls the movement of the body. An image of a **starfish** can be used to draw similarities. These robots provide a much wider range of applications compared to other type of robots as they have a more **fluid range of motion** which can be exploited for various purposes.
 
-![starfish](./starfish.gif)
+<Image
+  src={starfish}
+  alt="starfish"
+  width={starfish.width/0.5}
+  height={starfish.height/0.5}
+  style={{
+    borderRadius: "8px",
+    margin: "1rem auto",
+    display: "block"
+  }}
+/>
 
 ---
 
@@ -39,7 +64,19 @@ Soft robots serve various purposes in the present world. They can be used in **d
 
 They can be used in **medical fields** where the robots need to enter the body through small holes with straight instruments. These robots have an edge over the general surgical instruments as they must interact with **delicate structures** in very uncertain environments. Soft robots provide much more accessibility to **unreachable spots of the human body** and has the potential to revolutionise the field of medicine.
 
-Here is an interesting YouTube video showing a soft robot being used in a surgical simulation <iframe width="560" height="315" src="https://www.youtube.com/embed/XMVjn7bpF-Q" title="Soft robot in surgical simulation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+Here is an interesting YouTube video showing a soft robot being used in a surgical simulation
+
+<div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
+  <iframe
+    width="912"
+    height="513"
+    src="https://www.youtube.com/embed/XMVjn7bpF-Q"
+    title="Soft robot in surgical simulation"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  ></iframe>
+</div>
 
 These machines have also found a role in the fashion industry. The recent innovation- **Robotic fabrics** can make a huge difference in the field of clothing. They have a **sensing component** in addition to the actuation component. Chemicals inside the sensors vaporise/liquify based on the temperature, causing the body to inflate/deflate. **Thermal sensors** are used to reduce gear volume and make the fabric look compact and as mainstream as possible.
 
@@ -47,7 +84,17 @@ These machines have also found a role in the fashion industry. The recent innova
 
 ## Conclusion
 
-![fabric](./pnas-robotic-fabric2.webp)
+<Image
+  src={fabric}
+  alt="fabric"
+  width={fabric.width / 2}
+  height={fabric.height / 1.5}
+  style={{
+    borderRadius: "8px",
+    margin: "1rem auto",
+    display: "block"
+  }}
+/>
 
 The possibilities and uses are endless for soft robots, if one can bring **space exploration** into the equation. There are plans from the side of NASA to send soft robots into space.
 
