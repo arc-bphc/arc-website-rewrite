@@ -92,7 +92,9 @@ const { Content: About } = await render(about!);
 	preloadImages={faces.map(face => face.image.src)}
 	pagefindIgnore
 >
+	
 	<div slot="hero">
+		<!--
 		<Banner 
 			autoFill={true}
 			pauseOnHover={true}
@@ -106,11 +108,13 @@ const { Content: About } = await render(about!);
 				</a>
 			</span>
 		</Banner>
+		-->
 		<AnimatedHero client:only="react"/>
 		<p class="text-center font-thin font-[orbitron] tracking-widest pt-0 mt-0">
 			The Automation and Robotics Club of BITS Pilani, Hyderabad Campus	
 		</p>
 	</div>
+	
 	<div class="w-full flex md:flex-row flex-col items-center justify-center perspective">
 		<div class="w-full max-w-lg px-8 md:px-0 md:pr-16">
 			<TextReveal client:visible
