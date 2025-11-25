@@ -1,0 +1,70 @@
+---
+title: F1TENTH Autonomous Racer
+date: 11-26-2025
+description: A high-performance 1/10th scale autonomous vehicle designed for battle-racing using Lidar, ROS 2, and advanced motion planning algorithms.
+image: ./f1tenth.jpg
+info:
+  - text: GitHub
+    link: https://github.com/your-username/f1tenth
+    icon:
+      type: lucide
+      name: github
+---
+
+**F1TENTH** is not your average remote-controlled car. In fact, there is no remote. This is an autonomous battle-racing platform capable of reaching speeds up to 40 mph (scale speed) completely on its own.
+
+Built on an industrial-grade electronics stack, this project bridges the gap between mechanical engineering and advanced computer science. It forces the car to perceive its environment, map the track, and calculate the optimal racing line in milliseconds—all while avoiding obstacles and other vehicles.
+
+## The Autonomy Stack
+
+Driving fast is easy; driving fast without crashing is hard. The car operates on a loop of **Perception, Planning, and Control**.
+
+### Perception: Seeing with Lasers
+Instead of cameras, F1TENTH relies primarily on a **2D LiDAR**. The sensor spins rapidly, casting laser beams to measure the distance to walls and obstacles 40 times per second. This point cloud data is fed into the onboard computer to answer the question: *"Where am I, and where are the walls?"*
+
+### SLAM & Localization
+We use **SLAM (Simultaneous Localization and Mapping)** algorithms like Google Cartographer or Particle Filters. The car builds a map of the track on its first lap, then uses that map to localize itself with centimeter-level precision during the race.
+
+### Planning: The Racing Line
+Once the car knows where it is, it needs to decide where to go. We implement algorithms ranging from simple reactive methods to complex optimization:
+* **Gap Follower**: Reactively steers towards the largest open space (great for obstacle avoidance).
+* **Pure Pursuit**: A geometric path-tracking algorithm that "chases" a point on a pre-calculated optimal racing line.
+
+## No Hardware? No Problem.
+
+Building the physical car can be expensive, but the logic is free. Before deploying code to the real vehicle, we validate everything in a physics-based simulation.
+
+We utilize the **[F1TENTH Gym ROS](https://github.com/f1tenth/f1tenth_gym_ros)** environment. This lightweight simulator mimics the vehicle dynamics and sensor data accurately, allowing you to:
+* Test algorithms without risking a $2,000 robot.
+* Train Reinforcement Learning (RL) agents by crashing thousands of virtual cars safely.
+* Tune PID parameters in a controlled loop.
+
+It serves as the perfect bridge between theory and the race track.
+
+## Features
+
+* **NVIDIA Jetson Compute**: Runs heavy neural networks and ROS nodes on the edge.
+* **Lidar-Based Navigation**: High-frequency scanning for instant reaction times.
+* **Ackermann Steering**: Realistic car-like steering geometry (non-holonomic constraints).
+* **ROS 2 Architecture**: Modular software stack allowing easy integration of new algorithms.
+* **Regenerative Braking**: Managed by the VESC for energy efficiency and cornering control.
+
+## Components
+
+* **Compute**: NVIDIA Jetson Orin Nano / Xavier NX
+* **Sensor**: Hokuyo UST-10LX LiDAR (10m range)
+* **Motor Controller**: VESC 6 MKV (Open Source ESC)
+* **Chassis**: Traxxas Ford Fiesta ST Rally (1/10 Scale)
+* **Power**: 4S LiPo Battery (14.8V)
+* **Motor**: Brushless DC Motor (BLDC)
+
+## Challenges & Learning
+
+The biggest challenge in F1TENTH is **latency**. At high speeds, even a 100ms delay in processing Lidar data can mean the difference between a perfect apex and a head-on collision with the wall. Optimizing C++ code and tuning the **PID controller** values for the steering servo was critical to preventing oscillation at high speeds.
+
+## Use Cases
+
+This platform is the gold standard for learning autonomous systems. It is used for:
+* **Algorithm Validation**: Testing MPC (Model Predictive Control) in real-world physics.
+* **Competitions**: Racing against other universities in the F1TENTH Grand Prix.
+* **Reinforcement Learning**: Training agents to drive via trial and error.

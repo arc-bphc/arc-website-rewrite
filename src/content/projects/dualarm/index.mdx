@@ -1,0 +1,55 @@
+---
+title: "Dual-Arm Cooperative Manipulation"
+date: 11-26-2025
+description: "A research platform exploring bimanual robotic control, allowing two independent 6-DOF arms to collaborate on complex tasks like folding laundry or assembling structures."
+image: "./dualarm.jpg"
+info:
+  - text: GitHub
+    link: https://github.com/your-username/dualarm
+    icon:
+      type: lucide
+      name: github
+---
+
+**Dual-Arm Manipulation** represents the next leap in robotic capability: **Cooperation**.
+
+While a single robotic arm is useful, it is limited. It cannot unscrew a jar lid, fold a shirt, or lift an object larger than its gripper. By coordinating two arms simultaneously, we unlock "bimanual" tasks that mimic human dexterity.
+
+This project focuses not just on moving two arms, but on making them *aware* of each other.
+
+## The Theory: Closed Kinematic Chains
+
+When two robots hold a single object, they form a **Closed Kinematic Chain**.
+* In a single arm (Open Chain), errors at the base propagate to the hand, but the arm can move freely.
+* In a dual arm setup (Closed Chain), the robots are mechanically linked through the object. If Robot A moves left and Robot B doesn't, they will rip the object apart or burn out their motors.
+
+### Impedance Control
+To solve this, we don't just control position; we control **force**.
+We implement **Master/Slave** or **Coordinated Impedance Control**, where the arms act like springs. If they feel resistance from the other arm, they yield slightly. This "soft" control allows them to hold a rigid object without fighting each other.
+
+## Features
+
+* **Synchronized Trajectory Planning**: A central brain calculates paths for both arms to ensure they never collide (Self-Collision Avoidance).
+* **Load Sharing**: Heavy objects are lifted by distributing the weight across both manipulators.
+* **Bimanual Tasks**:
+    * **Handover**: Passing an object from left hand to right hand to extend workspace.
+    * **Assembly**: One arm holds a PCB while the other solders a component.
+    * **Deformable Object Manipulation**: Folding fabric or bending wire.
+
+## Components
+
+* **Manipulators**: 2x Custom 6-DOF Robotic Arms.
+* **Central Computer**: ROS 2 running on an Intel NUC or NVIDIA Jetson.
+* **Communication**: CAN Bus or EtherCAT for synchronized microsecond-level timing.
+* **Sensors**: Force/Torque sensors at the wrists to measure interaction forces.
+
+## Challenges & Learning
+
+The hardest part of this project was **Calibration**.
+If the two robots think they are 100cm apart, but they are actually 101cm apart, they will constantly fight over that 1cm error when holding an object. We developed an automatic calibration routine where the robots touch a shared reference point to align their coordinate systems perfectly.
+
+## Use Cases
+
+* **Service Robotics**: Folding laundry, opening bottles, or cooking in a home environment.
+* **Industrial Assembly**: Handling large, flexible car parts (like bumpers) that flop around if held by one point.
+* **Space Robotics**: Bimanual satellites repairing other spacecraft in orbit.

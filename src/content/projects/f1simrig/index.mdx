@@ -1,0 +1,63 @@
+---
+title: "F1 VR Motion Rig"
+date: 11-26-2025
+description: "A high-fidelity physical simulator build designed to replicate the G-forces, braking pressure, and visceral immersion of Formula 1 racing using VR and haptic feedback."
+image: "./f1simrig.jpg"
+info:
+  - text: GitHub
+    link: https://github.com/your-username/f1simrig
+    icon:
+      type: lucide
+      name: github
+---
+
+**The F1 VR Motion Rig** isn't just a video game controller—it’s a teleportation device. While sitting in a stationary room, the goal of this build was to trick the human brain into believing it is traveling at 200 mph down the Kemmel Straight.
+
+Unlike standard desktop setups, this rig is built to physically replicate the forces, seating position, and visual claustrophobia of a real Formula 1 cockpit. It bridges the gap between "playing a game" and "driving a simulation."
+
+## The Science of Immersion
+
+True immersion relies on properly stimulating three sensory inputs: **Visual, Tactile, and Vestibular**. The rig operates on a philosophy of "Zero Flex, Maximum Feedback."
+
+### The Chassis: Rigidity is King
+You can't experience precision in a wobbly office chair. We built the frame using **80/20 Aluminum Extrusion** (40x80mm and 40x120mm profiles). This industrial framing is completely rigid. When the steering wheel outputs torque, the frame absorbs none of it, ensuring 100% of the force is transferred directly to the driver's arms.
+
+### Force Feedback: Direct Drive
+We ditched traditional gear or belt-driven wheels for a **Direct Drive** base. The steering wheel is bolted directly to the motor shaft—no belts, no gears, no dampening. This provides 10Nm+ of holding torque (enough to bruise your thumbs if you hit a wall) and allows you to feel subtle details like the tires scrubbing across the asphalt.
+
+### Haptics: The "Seat of the Pants" Feel
+To simulate the road texture, we mounted **Bass Shakers** to the four corners of the chassis. These utilize telemetry data to vibrate the rig at specific frequencies (e.g., 45Hz for engine idle, 80Hz for road grain), allowing the driver to feel the car's grip limit through the chassis itself.
+
+## Virtual Reality Integration
+
+Visuals are powered by a **VR Headset** linked via high-bitrate streaming. In VR, scale is 1:1.
+
+When you sit in the cockpit of a virtual McLaren MCL60, the buttons are exactly where they should be, and the walls feel claustrophobically close. This provides true depth perception, allowing the driver to look *through* the corner to the apex rather than just looking at a flat screen.
+
+## Features
+
+* **Zero-Flex Frame**: Custom anodized aluminum profile chassis that withstands high-torque loads.
+* **Direct Drive Force Feedback**: Instant torque for realistic steering resistance.
+* **Load Cell Braking**: Pedals measure pressure (up to 65kg) rather than travel, mimicking hydraulic brake lines.
+* **4-Corner Haptics**: Localized vibration feedback for tire lockups and suspension travel.
+* **VR Integration**: 1:1 scale visual depth for natural spatial awareness.
+
+## Components
+
+* **Chassis**: DIY 8020 Profile (Black Anodized)
+* **Wheel Base**: Direct Drive Base (10Nm+)
+* **Wheel Rim**: Formula Style with dual-clutch paddles
+* **Pedals**: Load Cell Pedals
+* **Haptics**: 2x Bass Transducers + Mini Amp
+* **PC Specs**: High-end GPU for VR rendering
+
+## Challenges & Learning
+
+The biggest challenge in this build was **signal isolation**. High-powered Direct Drive motors can generate significant Electromagnetic Interference (EMI), which can cause USB disconnects or phantom inputs in sensitive load cell pedals. We solved this by grounding the rig chassis to the household earth and using ferrite cores on all USB data cables.
+
+## Use Cases
+
+This platform serves as a high-end training tool for:
+* **Driver Training**: Learning braking points and racing lines for track days without burning fuel.
+* **Competitive Sim Racing**: Competing in high-level iRacing or Assetto Corsa leagues.
+* **Engineering Testbed**: Testing vehicle dynamics and setup changes in a controlled environment.

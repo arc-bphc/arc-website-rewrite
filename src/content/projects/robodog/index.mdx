@@ -1,0 +1,55 @@
+---
+title: Robodog
+date: 11-26-2025
+description: A 12-DOF quadruped robot powered by inverse kinematics, capable of dynamic trotting and self-balancing on uneven terrain.
+image: ./robodog.jpg
+info:
+  - text: GitHub
+    link: https://github.com/your-username/robodog
+    icon:
+      type: lucide
+      name: github
+---
+
+**Robodog** isn't just a remote-controlled car with legs—it’s a complex study in physics, mathematics, and control theory. Designed to replicate the agility of biological quadrupeds, this project moves beyond simple pre-programmed animations to use real-time kinematic solving.
+
+Unlike wheeled robots that are bound by the terrain, Robodog adapts to it. It features a 12 Degrees of Freedom (DOF) system, meaning each leg has three active joints (hip roll, hip pitch, and knee pitch), allowing for full 3D foot positioning.
+
+## The Science Behind the Motion
+
+Making a robot walk is significantly harder than making it roll. The core of this project lies in **Inverse Kinematics (IK)**.
+
+### Inverse Kinematics (IK)
+Instead of telling a servo to move to "90 degrees," the code works with coordinates $(x, y, z)$.
+We define where we want the *foot* to be in 3D space relative to the body. The microcontroller then uses trigonometry to calculate the exact angle required for each of the three servos in the leg to reach that coordinate. This allows the robot to keep its body level while its feet navigate bumpy ground.
+
+### Dynamic Gaits
+Robodog implements a **Trot Gait**, where diagonal pairs of legs move simultaneously. This creates a stable yet fast movement pattern often seen in horses or dogs. To achieve this, the code generates a specific "foot locus"—a trajectory curve that the foot follows to lift off, move forward, and plant itself back down softly.
+
+## Features
+
+* **12-DOF System**: 3 servos per leg for fluid, organic motion.
+* **Real-time IK Engine**: Calculates joint angles on the fly (no pre-baked animations).
+* **Active Stabilization**: Uses a PID loop with an MPU6050 Gyro to keep the torso level.
+* **Trot & Crawl Gaits**: Switchable movement modes for speed or stability.
+* **Wireless Telemetry**: WiFi-based control interface for debugging and piloting.
+
+## Components
+
+* **Microcontroller**: ESP32 (Dual Core for handling IK math + WiFi)
+* **Actuators**: 12x MG996R High-Torque Metal Gear Servos
+* **Servo Driver**: PCA9685 16-Channel PWM Driver (I2C)
+* **IMU**: MPU6050 (6-axis Accelerometer & Gyroscope)
+* **Power**: 3S LiPo Battery (11.1V) with 5V/10A UBEC
+* **Chassis**: 3D Printed PETG parts + Carbon Fiber Rods
+
+## Challenges & Learning
+
+The biggest hurdle in building Robodog was **power management**. Driving 12 servos simultaneously creates massive current spikes (up to 15 Amps) that can brown out the microcontroller. Solving this required isolating the logic power rail from the servo power rail and using high-discharge capacitors.
+
+## Use Cases
+
+Robodog is an ideal platform for:
+* **Algorithm Development**: Testing path planning and terrain adaptation.
+* **Search and Rescue Prototypes**: navigating rubble or stairs.
+* **Education**: Visualizing trigonometry and physics in the real world.

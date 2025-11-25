@@ -1,0 +1,61 @@
+---
+title: "Autocar: Vision-Based Autonomy"
+date: 11-26-2025
+description: "A self-driving vehicle platform that relies purely on computer vision and deep learning to navigate lanes, recognize traffic signs, and make driving decisions."
+image: "./autocar.jpg"
+info:
+  - text: GitHub
+    link: https://github.com/your-username/autocar
+    icon:
+      type: lucide
+      name: github
+---
+
+**Autocar** is an experiment in "Camera-First" autonomy.
+
+While our F1TENTH project uses lasers to map geometry, Autocar tries to drive like a human: using eyes. It relies entirely on a single front-facing camera to interpret the world, utilizing computer vision pipelines and Convolutional Neural Networks (CNNs) to understand lanes, traffic signs, and obstacles.
+
+It is a study in how machines "see."
+
+## The Vision Pipeline
+
+Making a car drive itself using only pixels is a multi-step process.
+
+### 1. Traditional Computer Vision (The "Rules")
+For basic lane keeping, we use geometric algorithms:
+* **Canny Edge Detection**: Converts the video feed into a high-contrast wireframe to find boundaries.
+* **Hough Transform**: Mathematically finds lines within those edges to identify lane markers.
+* **Perspective Transform**: Warps the image to a "bird's eye view" to calculate the curvature of the road ahead.
+
+### 2. Behavioral Cloning (The "Brain")
+For complex environments, we ditch the rules and use **Deep Learning**.
+We implemented an **End-to-End Learning** model (inspired by NVIDIA's DAVE-2).
+1.  We drive the car manually, recording video and steering angles.
+2.  We feed this data into a CNN.
+3.  The car learns to associate specific visual patterns (like a curve approaching) with specific actions (turning the wheel), effectively cloning the human driver's behavior.
+
+## Features
+
+* **Lane Keeping Assist**: Automatically centers the vehicle between white/yellow lines.
+* **Traffic Sign Recognition**: Uses Haar Cascades or YOLO to detect Stop signs and Traffic Lights.
+* **Emergency Braking**: Ultrasonic sensors act as a fail-safe to cut power if an obstacle is too close.
+* **Shadow Resistance**: Advanced image thresholding to handle changing lighting conditions.
+
+## Components
+
+* **Compute**: Raspberry Pi 4 (4GB) or NVIDIA Jetson Nano.
+* **Vision**: Raspberry Pi Camera Module V2 / wide-angle lens.
+* **Motor Driver**: L298N H-Bridge.
+* **Chassis**: 4WD Smart Robot Car Chassis.
+* **Power**: 2x 18650 Li-ion Batteries.
+
+## Challenges & Learning
+
+The enemy of computer vision is **light**.
+A code pipeline that works perfectly in a well-lit room often fails completely when a shadow falls across the track or the sun glares into the lens. We learned to use **HSV Color Space** instead of RGB, as it isolates color from lighting intensity, making the lane detection much more robust.
+
+## Use Cases
+
+* **ADAS Research**: Testing algorithms for Lane Departure Warning systems.
+* **Last-Mile Delivery**: Prototyping delivery bots that stick to sidewalks.
+* **Machine Learning Education**: Visualizing how neural networks "activate" when seeing a road.
