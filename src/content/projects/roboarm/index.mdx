@@ -1,0 +1,64 @@
+---
+title: "6-DOF Robotic Arm"
+date: 11-26-2025
+description: "A programmable, high-precision robotic manipulator utilizing inverse kinematics and computer vision for automated pick-and-place tasks."
+image: "./roboarm.jpg"
+info:
+  - text: GitHub
+    link: https://github.com/your-username/roboarm
+    icon:
+      type: lucide
+      name: github
+---
+
+[Image of 6-axis robotic arm]
+
+**The 6-DOF Robotic Arm** is an exploration into industrial automation on a desktop scale.
+
+While wheeled robots operate in 2D space, a robotic arm must conquer 3D space. This project replicates the kinematics of industrial robots (like KUKA or Fanuc), allowing for precise manipulation of objects, automated assembly tasks, and remote operation.
+
+It isn't just about moving motors; it's about translating mathematical coordinates into physical motion.
+
+## The Mathematics of Motion
+
+Controlling a multi-jointed arm requires solving complex spatial geometry in real-time.
+
+### Inverse Kinematics (IK)
+The core challenge is **Inverse Kinematics**.
+* **Forward Kinematics**: "If I set the elbow to 30° and wrist to 45°, where is the hand?" (Easy).
+* **Inverse Kinematics**: "I want the hand at coordinate $(x, y, z)$ with a specific orientation. What angles do the motors need to be?" (Hard).
+
+The onboard controller solves these trigonometric equations hundreds of times per second, allowing the end-effector to move in a straight line while all joints rotate simultaneously.
+
+### Degrees of Freedom (DOF)
+We utilized a **6-Axis Design**.
+* **3 Axis** for Position ($X, Y, Z$).
+* **3 Axis** for Orientation (Pitch, Roll, Yaw).
+This allows the arm to approach an object from any angle, mimicking the flexibility of the human wrist and shoulder.
+
+## Features
+
+* **Computer Vision Integration**: Uses an OpenCV-based camera to identify, sort, and track objects by color or shape.
+* **Teach & Repeat**: A manual "lead-through" mode where the user physically moves the arm, and it records the trajectory to replay later.
+* ** Interchangeable End-Effectors**: Modular gripper design allows swapping between parallel claws, suction cups, or electromagnets.
+* **Smooth Path Planning**: Implements acceleration and deceleration curves (S-curves) to prevent jerky movements and protect the gears.
+
+## Components
+
+* **Actuators (Base/Shoulder)**: NEMA 17 Stepper Motors (for high torque and precision).
+* **Actuators (Wrist)**: MG996R Metal Gear Servos (for lightweight agility).
+* **Controller**: Arduino Mega / ESP32 (handling IK calculations).
+* **Drivers**: TB6600 Stepper Drivers.
+* **Power**: 12V 30A Switching Power Supply.
+* **Structure**: 3D Printed PETG with carbon fiber rod reinforcement.
+
+## Challenges & Learning
+
+The enemy of robotics is **gravity**.
+The "Holding a milk jug" problem: The further the arm extends, the more torque is required at the base joint due to leverage. We solved this by adding **gas springs** and **counterweights** to the main joint, passively neutralizing the weight of the arm so the motors only have to lift the payload, not the arm itself.
+
+## Use Cases
+
+* **Automated Assembly**: Screwing, soldering, or pick-and-place operations.
+* **Remote Manipulation**: Handling hazardous materials or objects in unreachable areas.
+* **Education**: Visualizing coordinate systems, matrices, and control theory.

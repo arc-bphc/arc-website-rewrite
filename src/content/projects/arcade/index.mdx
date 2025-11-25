@@ -1,0 +1,67 @@
+---
+title: "Retro Arcade: The Smart Cabinet"
+date: 11-26-2025
+description: "A custom-built DIY arcade cabinet running RetroPie, featuring a cashless payment system integrated via UPI and Adafruit IO for automated game credits."
+image: "./arcade.jpg"
+info:
+  - text: GitHub
+    link: https://github.com/your-username/arcade
+    icon:
+      type: lucide
+      name: github
+---
+
+**The Retro Arcade** is where nostalgia meets the Internet of Things (IoT).
+
+While building a standard arcade machine with a Raspberry Pi is a classic rite of passage for makers, this project adds a modern twist: **Cashless Payments**. instead of hunting for quarters, players unlock playtime using UPI (Unified Payments Interface), turning a static emulator into a connected vending machine.
+
+It’s an exercise in Linux shell scripting, hardware interfacing, and cloud integration.
+
+## How It Works
+
+The core is **RetroPie**, a software library that turns a Raspberry Pi into a retro-gaming console. However, we needed to stop users from playing for free.
+
+### The "Interceptor" Script
+RetroPie allows you to modify the launch command for every emulator. We injected a custom **Bash Script** into this launch sequence.
+1.  User selects a game (e.g., *Street Fighter II*).
+2.  Before the emulator starts, our script takes over.
+3.  The script waits. It halts the system and displays a "Please Scan to Pay" overlay.
+4.  It polls a specific GPIO pin or a local file flag to check for payment.
+5.  Once the signal is received, the script exits, and the emulator launches the game.
+
+## The Payment Pipeline (UPI + IoT)
+
+Since coin mechanisms are heavy and outdated, we use a physical QR code sticker on the cabinet.
+
+1.  **Scan**: The player scans the QR code with their phone and pays via UPI.
+2.  **Cloud Sync**: The payment gateway webhook updates a feed on **Adafruit IO** (our lightweight cloud broker).
+3.  **The Polling**: A background Python script on the Raspberry Pi constantly checks the Adafruit IO feed.
+4.  **The Trigger**: When the feed changes to "PAID," the Python script fires a signal (either toggling a virtual pin or creating a lockfile), telling the "Interceptor" bash script to unlock the game.
+
+## Features
+
+* **Instant UPI Integration**: No app required, just a standard banking QR code.
+* **Adafruit IO Backend**: Low-latency MQTT/HTTP signaling to bridge the phone and the arcade cabinet.
+* **RetroPie Interface**: A polished frontend (EmulationStation) for browsing thousands of games.
+* **Arcade Controls**: Sanwa-style joysticks and buttons wired via GPIO/USB encoders for authentic feel.
+
+## Components
+
+* **Compute**: Raspberry Pi 4 (4GB RAM recommended for N64/Dreamcast).
+* **Controls**: Arcade Joystick + 8 Buttons (connected via GPIO or USB Encoder).
+* **Display**: 19" 4:3 LCD Monitor (for that retro aspect ratio).
+* **Software**: RetroPie OS, Python, Bash.
+* **Cloud**: Adafruit IO (Free Tier).
+* **Cabinet**: 12mm MDF / Plywood.
+
+## Challenges & Learning
+
+The tricky part was **state management**.
+What happens if two people pay at once? What if the internet cuts out?
+We had to write robust Bash scripts to ensure the "Credits" don't get eaten if a game crashes. We also utilized `pigpio` to manage the button inputs directly, ensuring that the "Coin Insert" signal could be simulated digitally by our software when a payment went through.
+
+## Use Cases
+
+* **Club Rooms**: A revenue-generating entertainment unit.
+* **Events**: A crowd-puller that can be set to "Free Play" or "Pay-to-Play" remotely.
+* **Linux Education**: Learning how to intercept processes and manage background daemons in a fun, practical way.
