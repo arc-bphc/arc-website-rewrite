@@ -59,6 +59,21 @@ const tags = defineCollection({
   })
 });
 
+const newsletter = defineCollection({
+  loader: glob({ base: "src/content/newsletter", pattern: "**/*.{md,mdx}" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
+    description: z.string(),
+    tags: z.array(
+      reference("tags")
+    ),
+    draft: z.boolean().optional().default(false),
+    image: image(),
+  })
+});
+
 const posts = defineCollection({
   loader: glob({ base: "src/content/posts", pattern: "**/*.{md,mdx}" }),
   schema: ({ image }) => z.object({
@@ -92,4 +107,4 @@ const projects = defineCollection({
   })
 });
 
-export const collections = { tags, posts, projects, other, quickInfo, socials, members };
+export const collections = { tags, posts, projects, other, quickInfo, socials, members, newsletter };

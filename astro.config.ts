@@ -46,6 +46,10 @@ const config = defineConfig({
           title: 'ARC BPHC',
           description: 'ARC (Automation and Robotics Club) of BITS Pilani, Hyderabad Campus'
         },
+        newsletter: {
+          title: 'Newsletter',
+          description: 'description go brrrr'
+        },
         blog: {
           title: 'Blog',
           description: 'Find out what is cooking at ARC BPHC.'
