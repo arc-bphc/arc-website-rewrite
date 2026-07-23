@@ -1,0 +1,173 @@
+---
+title: "ARC's Summer of Simulation"
+description: "The one where we spawned quadrupeds in physics engines, trained a Go1 to walk with reinforcement learning, and cooked up a ROS micromouse maze for the incoming juniors."
+image: "./assets/newsletter-header.jpeg"
+createdAt: 2026-07-23
+draft: false
+tags:
+  - newsletter
+  - robotics
+  - simulation
+  - reinforcement learning
+---
+
+import { Image } from "astro:assets";
+import so100 from "./assets/so100.png";
+import pupper from "./assets/pupper.png";
+import week4 from "./assets/Week 4 Screenshot July 23 2026.png";
+import pratyush from "./assets/pratyush.png";
+import dancingRobots from "./assets/dancingrobots.35.mp4";
+import go1Training from "./assets/Go1.mp4";
+import taskSneakPeek from "./assets/TaskSneakPeak.mp4";
+
+## Welcome to the first issue of our newsletter!
+
+You waited for summer to end, and here it is — right on time.
+
+This summer, ARC went all-in on one idea: **before you build a robot in the real world, you build it a thousand times in simulation.** So we spun up physics engines, wrote controllers, broke them, fixed them, and taught a quadruped to walk from scratch. Here's everything we got up to.
+
+> *"In simulation, gravity is a suggestion, friction is a config file, and every catastrophic failure just costs you a `Ctrl+C`. That's the whole point — fail ten thousand times before breakfast, so the real robot only has to succeed once."*
+
+---
+
+### What We Set Out to Do
+
+We kicked off the break with a plan we called **The Sims** — a five-week climb that takes you from *"what even is a physics engine"* all the way to *"my robot just learned to walk on its own."* No prior robotics required; just curiosity and a willingness to watch your simulated robot faceplant a few hundred times.
+
+The whole curriculum lives here 👉 [**github.com/arc-bphc/the-sims**](https://github.com/arc-bphc/the-sims)
+
+*   **Weeks 1–2 — Spawn, Control, Move:** We dropped robots into **MuJoCo**, got comfortable with the **`.mjcf`** format (a cousin of URDF/xacro, not the same thing), inspected mass/joint/actuator limits and sensor configs, sent raw torque commands, logged proprioceptive sensor data, and wired up sliders to drive joints by hand. Then came the math that makes limbs move *on purpose* — forward and inverse kinematics derived geometrically, cubic-spline end-effector trajectories for the **SO-100** arm, and a **sine-wave gait** for the **Pupper**: vary each foot's X and Z sinusoidally, offset the phase per leg, and the dog walks.
+*   **Weeks 3–4 — The RL Foundations:** We worked through the **HuggingFace Deep RL Course** — value functions, policy gradients, actor-critic, and **PPO** — so that nothing in the training code later would feel like a black box.
+*   **Week 5 — Make It Walk:** The payoff. Real reinforcement learning for quadruped locomotion on the **mjlab + RSL_RL** stack, with training runs tracked live on **Weights & Biases**.
+
+---
+
+### Weeks 1–2: From Empty Scene to Moving Robot
+
+Every one of those weeks starts with nothing but a checkerboard floor. The very first job of the summer was getting our two robots to simply *exist* in MuJoCo — the **SO-100** arm and the **Stanford Pupper** — then poking them into motion with torque commands and joint sliders.
+
+<Image src={so100} alt="The SO-100 robotic arm spawned in the MuJoCo viewer" quality={100} style="width:100%; height:auto; border-radius:8px;" />
+
+*The SO-100 arm, spawned in the raw MuJoCo viewer — Week 1's opening task, before a single line of control code.*
+
+Then the star of the show — the quadruped we'd spend the rest of the summer teaching to walk:
+
+<Image src={pupper} alt="The Stanford Pupper quadruped loaded and standing in MuJoCo simulation" quality={100} style="width:100%; height:auto; border-radius:8px;" />
+
+*The Stanford Pupper, loaded and settling under gravity. By Week 2 it was walking a sine-wave gait — each foot's X and Z traced out sinusoidally, with a phase offset per leg.*
+
+---
+
+### Weeks 3–4: Learning How Robots Learn
+
+Before you can train a robot, you have to understand what "learning" even means to one. Weeks three and four were spent inside the HuggingFace Deep RL Course, building up the vocabulary — states, actions, rewards, and the value functions that tie them together.
+
+Here's the classic example that makes it click: a mouse, a maze, and some cheese. The **action-value function** asks *"from this square, if I take this step, how good is my future?"* — and every cell gets a number that answers it.
+
+<Image src={week4} alt="A slide from the HuggingFace Deep RL Course showing the action-value function on a mouse-and-cheese gridworld" quality={100} style="width:100%; height:auto; border-radius:8px;" />
+
+Keep that mouse in mind. It comes back at the end of this newsletter. 🧀
+
+---
+
+### Week 5: Teaching a Go1 to Walk — with Reinforcement Learning
+
+This is where it all comes together. Getting a quadruped to walk with RL means five libraries each doing exactly one job:
+
+*   **MuJoCo** simulates the physics — bodies, contacts, gravity, torques.
+*   **MuJoCo Warp** runs *thousands* of those simulations in parallel on the GPU.
+*   **mjlab** wraps that raw physics into an RL problem — the observations, actions, rewards, and terminations. **This is where almost all the engineering effort goes.**
+*   **PyTorch** is the tensor language everything speaks.
+*   **RSL_RL** (from ETH Zürich) runs the actual PPO learning loop — the same algorithm from Weeks 3–4, just batched across thousands of robots at once.
+
+But before you train anything, you make sure the plumbing actually works. mjlab ships with demos you can run straight out of the box — so our very first move was to load a **pretrained model and just hit play**, watching a humanoid dance across the viewer. No training, no reward tuning — purely a smoke test to confirm the GPU, the install, and the whole stack were talking to each other:
+
+<video src={dancingRobots} controls muted loop playsinline style="width:100%; height:auto; border-radius:8px;">
+  Your browser doesn't support the video tag.
+</video>
+
+Once the demo danced, we knew the stack was live. Time to actually train something.
+
+Our first milestone was the **Unitree Go1**, which ships with a ready-made mjlab environment. Training it end-to-end was how we proved the *learning* side of the stack works before building anything of our own:
+
+```bash
+# Train the shipped Go1 velocity task across 512 parallel robots
+uv run train Mjlab-Velocity-Flat-Unitree-Go1 --env.scene.num-envs 512
+```
+
+Then you sit back and watch the reward curves climb on Weights & Biases — the moment a flailing pile of joints turns into a walk:
+
+<video src={go1Training} controls muted loop playsinline style="width:100%; height:auto; border-radius:8px;">
+  Your browser doesn't support the video tag.
+</video>
+
+The real work isn't running that command, though — it's **building the environment itself**. That means deciding what the robot senses (its 12 joint angles and velocities, how its torso is tilted, its foot position vectors, its last action) and what earns it reward. And here's the twist that trips everyone up: the policy never outputs torque. It outputs a small offset to a default joint position, which a built-in PD controller turns into torque:
+
+```
+policy output  →  scaled offset  →  target joint position  →  PD controller  →  torque  →  physics
+```
+
+Every reward is a weighted sum of hand-designed terms — stay upright, hold a target torso height, track the commanded velocity, don't waste energy, don't drag your feet. Get the weights wrong and the robot "cheats": drop the height penalty and it happily learns to crawl. That tuning — the observations, the foot vectors, the reward terms — is the summer's real engineering, and it's exactly what carries us from the Go1 into building our own quadruped environments from scratch.
+
+RL doesn't hand you a working robot on day one. It hands you a robot that's slightly less terrible than yesterday's — and if you stack enough of those days, you get something that walks.
+
+---
+
+### Sneak Peek: The CNI Micromouse Task
+
+We weren't just building for ourselves — a big chunk of the summer went into designing the tasks that'll welcome this year's **incoming juniors**. And the one we're most excited about brings that mouse-and-cheese gridworld to life: **a micromouse maze solver.**
+
+Except this mouse is a real robot in simulation, and it's driven entirely through **ROS topics**. It doesn't get a map. It has to *subscribe* to its wall sensors to feel out its surroundings, reason about which way is open, and *publish* velocity commands to actually move — feeling its way to the center of the maze one cell at a time.
+
+```
+   sensor topics  ──▶  [ your maze-solving node ]  ──▶  velocity command topic
+   (what walls?)          (flood fill? wall follow?)        (drive!)
+```
+
+Flood fill? Wall follower? Something smarter? That's for the juniors to figure out. Here's a first look at the task in action:
+
+<video src={taskSneakPeek} controls muted loop playsinline style="width:100%; height:auto; border-radius:8px;">
+  Your browser doesn't support the video tag.
+</video>
+
+If you're joining ARC this year — this is the kind of thing waiting for you. Come find the cheese. 🧀
+
+---
+
+### Member of the Month
+
+<style>{`
+  .motm-photo {
+    float: right;
+    width: 240px;
+    height: auto;
+    margin: 0 0 1rem 1.5rem;
+    border-radius: 8px;
+  }
+  @media screen and (max-width: 640px) {
+    .motm-photo {
+      float: none;
+      display: block;
+      width: 65%;
+      margin: 0 auto 1rem;
+    }
+  }
+`}</style>
+
+<Image src={pratyush} alt="Pratyush Priyadarshi — ARC's Member of the Month" quality={100} class="motm-photo" />
+
+Every month, when a fresh issue drops, we'll crown a **Member of the Month** — the one person who contributed the most, stood out from the pack, and generally made the rest of us look like we were on vacation.
+
+For this whole Summer of Simulation, there were many people we considered but this guy: **Pratyush Priyadarshi.** From designing the CNI micromouse tasks, to simulating the Pupper, to improving and maintaining the very website you're reading this on — he showed up everywhere the hard work was, and quietly turned it into something that actually worked.
+
+ARC is *deeply, sincerely* proud to have a genius like Pratyush in our ranks — and we can only hope this newsletter doesn't tip off **Crux** or **SWD**, because we'd really rather not lose him. (If you're reading this, Pratyush: we said nice things. Please stay.)
+
+<div style={{ clear: "both" }}></div>
+
+---
+
+That's a wrap on our first issue. A whole summer of physics engines, faceplanting quadrupeds, reward curves, and mazes — and we're only getting started.
+
+See you in the next one. 
+
+**— The Team**
