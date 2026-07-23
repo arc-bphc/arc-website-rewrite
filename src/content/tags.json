@@ -16,5 +16,17 @@
   },
   {
     "id": "github"
+  },
+  {
+    "id": "newsletter"
+  },
+  {
+    "id": "robotics"
+  },
+  {
+    "id": "simulation"
+  },
+  {
+    "id": "reinforcement learning"
   }
 ]
