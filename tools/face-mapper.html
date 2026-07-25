@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ARC Team Face Mapper</title>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --line:#30363d; --accent:#ccff00; --text:#e6edf3; --muted:#8b949e; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--bg); color:var(--text); }
+  header { padding:14px 18px; border-bottom:1px solid var(--line); display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  header h1 { font-size:15px; margin:0; letter-spacing:1px; color:var(--accent); }
+  .hint { color:var(--muted); font-size:12px; }
+  main { display:flex; gap:0; height:calc(100vh - 55px); }
+  #stage { flex:1; overflow:auto; padding:18px; }
+  #wrap { position:relative; display:inline-block; user-select:none; }
+  #wrap img { display:block; max-width:100%; height:auto; }
+  .box { position:absolute; border:2px solid var(--accent); background:rgba(204,255,0,0.12); cursor:pointer; }
+  .box .tag { position:absolute; top:-20px; left:-2px; background:var(--accent); color:#000; font-size:10px; padding:1px 4px; white-space:nowrap; border-radius:2px; }
+  .box.unknown { border-color:#f85149; background:rgba(248,81,73,0.12); }
+  .box.unknown .tag { background:#f85149; color:#fff; }
+  #draft { position:absolute; border:2px dashed var(--accent); background:rgba(204,255,0,0.08); pointer-events:none; }
+  aside { width:380px; border-left:1px solid var(--line); background:var(--panel); display:flex; flex-direction:column; }
+  .sec { padding:14px 16px; border-bottom:1px solid var(--line); }
+  label { display:block; font-size:11px; color:var(--muted); margin:8px 0 4px; text-transform:uppercase; letter-spacing:1px; }
+  input, textarea, button { font-family:inherit; }
+  input[type=text], input[type=file] { width:100%; background:var(--bg); border:1px solid var(--line); color:var(--text); padding:7px 9px; border-radius:5px; font-size:12px; }
+  textarea { width:100%; height:100%; min-height:220px; background:var(--bg); border:1px solid var(--line); color:var(--text); padding:10px; border-radius:5px; font-size:11px; resize:none; }
+  button { background:var(--accent); color:#000; border:none; padding:8px 12px; border-radius:5px; font-weight:600; cursor:pointer; font-size:12px; }
+  button.ghost { background:transparent; color:var(--muted); border:1px solid var(--line); }
+  .row { display:flex; gap:8px; align-items:center; }
+  .list { flex:1; overflow:auto; padding:6px 16px; }
+  .item { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--line); font-size:12px; }
+  .item .id { color:var(--accent); }
+  .item .id.unknown { color:#f85149; }
+  .item button { background:transparent; color:var(--muted); border:none; padding:2px 6px; }
+  .out { display:flex; flex-direction:column; flex:1; min-height:0; }
+  .dim { color:var(--muted); font-size:11px; }
+  code { color:var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>ARC · FACE MAPPER</h1>
+  <span class="hint">Load the team photo → drag a box over each face → type their <code>id</code> (e.g. <code>2024/20240478</code>) → copy the JSON into <code>src/content/team.json</code></span>
+</header>
+<main>
+  <div id="stage">
+    <div class="hint" id="loadHint" style="padding:40px;">⬅ Pick <code>team.jpeg</code> in the panel to begin.</div>
+    <div id="wrap" style="display:none;">
+      <img id="img" alt="team" />
+      <div id="draft" style="display:none;"></div>
+    </div>
+  </div>
+  <aside>
+    <div class="sec">
+      <label>Team photo</label>
+      <input type="file" id="file" accept="image/*" />
+      <p class="dim" id="dims"></p>
+    </div>
+    <div class="sec">
+      <label>Import existing team.json (optional)</label>
+      <input type="file" id="importFile" accept="application/json,.json" />
+    </div>
+    <div class="list" id="list"></div>
+    <div class="sec out">
+      <div class="row" style="justify-content:space-between;">
+        <label style="margin:0;">team.json output</label>
+        <div class="row">
+          <button class="ghost" id="copyBtn">Copy</button>
+          <button class="ghost" id="clearBtn">Clear all</button>
+        </div>
+      </div>
+      <textarea id="output" readonly spellcheck="false"></textarea>
+    </div>
+  </aside>
+</main>
+
+<script>
+(() => {
+  const img = document.getElementById('img');
+  const wrap = document.getElementById('wrap');
+  const draft = document.getElementById('draft');
+  const listEl = document.getElementById('list');
+  const output = document.getElementById('output');
+  const dims = document.getElementById('dims');
+
+  let faces = [];          // {id, bounds:{x,y,width,height}}  — native pixel space
+  let natW = 0, natH = 0;  // intrinsic image size
+
+  // ---- load image ----
+  document.getElementById('file').addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return;
+    img.onload = () => {
+      natW = img.naturalWidth; natH = img.naturalHeight;
+      dims.textContent = `Intrinsic size: ${natW} × ${natH}px (origin = top-left)`;
+      document.getElementById('loadHint').style.display = 'none';
+      wrap.style.display = 'inline-block';
+      render();
+    };
+    img.src = URL.createObjectURL(f);
+  });
+
+  // ---- import existing JSON ----
+  document.getElementById('importFile').addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const data = JSON.parse(r.result);
+        faces = data.map(d => ({ id: d.id, bounds: d.bounds }));
+        render();
+      } catch (err) { alert('Could not parse that JSON: ' + err.message); }
+    };
+    r.readAsText(f);
+  });
+
+  // display-scale: rendered px / native px
+  const scale = () => img.clientWidth / natW;
+
+  // ---- draw a new box ----
+  let start = null;
+  wrap.addEventListener('mousedown', e => {
+    if (e.target !== img || !natW) return;
+    const r = img.getBoundingClientRect();
+    start = { x: e.clientX - r.left, y: e.clientY - r.top };
+    draft.style.display = 'block';
+    Object.assign(draft.style, { left: start.x+'px', top: start.y+'px', width:'0px', height:'0px' });
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', e => {
+    if (!start) return;
+    const r = img.getBoundingClientRect();
+    const cx = Math.max(0, Math.min(e.clientX - r.left, r.width));
+    const cy = Math.max(0, Math.min(e.clientY - r.top, r.height));
+    Object.assign(draft.style, {
+      left: Math.min(start.x, cx)+'px', top: Math.min(start.y, cy)+'px',
+      width: Math.abs(cx - start.x)+'px', height: Math.abs(cy - start.y)+'px'
+    });
+  });
+  window.addEventListener('mouseup', e => {
+    if (!start) return;
+    const r = img.getBoundingClientRect();
+    const cx = Math.max(0, Math.min(e.clientX - r.left, r.width));
+    const cy = Math.max(0, Math.min(e.clientY - r.top, r.height));
+    const dx = Math.abs(cx - start.x), dy = Math.abs(cy - start.y);
+    draft.style.display = 'none';
+    const s = scale();
+    if (dx > 6 && dy > 6) {
+      // convert display px -> native px, round to whole pixels
+      const bounds = {
+        x: Math.round(Math.min(start.x, cx) / s),
+        y: Math.round(Math.min(start.y, cy) / s),
+        width: Math.round(dx / s),
+        height: Math.round(dy / s),
+      };
+      const id = prompt('Member id for this face (folder path, e.g. 2024/20240478).\nLeave blank for "Unknown".') || 'Unknown';
+      faces.push({ id: id.trim() || 'Unknown', bounds });
+      render();
+    }
+    start = null;
+  });
+
+  // ---- render boxes + list + output ----
+  function render() {
+    // remove old boxes (keep img + draft)
+    [...wrap.querySelectorAll('.box')].forEach(b => b.remove());
+    const s = scale();
+    faces.forEach((f, i) => {
+      const el = document.createElement('div');
+      el.className = 'box' + (f.id === 'Unknown' ? ' unknown' : '');
+      Object.assign(el.style, {
+        left: (f.bounds.x*s)+'px', top: (f.bounds.y*s)+'px',
+        width: (f.bounds.width*s)+'px', height: (f.bounds.height*s)+'px'
+      });
+      const tag = document.createElement('span'); tag.className='tag'; tag.textContent = f.id;
+      el.appendChild(tag);
+      el.title = 'Click to delete';
+      el.onclick = () => { faces.splice(i,1); render(); };
+      wrap.appendChild(el);
+    });
+
+    // list
+    listEl.innerHTML = '';
+    faces.forEach((f, i) => {
+      const row = document.createElement('div'); row.className='item';
+      const c = f.bounds;
+      row.innerHTML = `<span class="id ${f.id==='Unknown'?'unknown':''}">${f.id}</span>
+        <span class="dim">${c.x},${c.y} · ${c.width}×${c.height}</span>`;
+      const del = document.createElement('button'); del.textContent='✕';
+      del.onclick = () => { faces.splice(i,1); render(); };
+      row.appendChild(del);
+      listEl.appendChild(row);
+    });
+
+    // output — matches team.json schema exactly, location = box center
+    const json = faces.map(f => ({
+      id: f.id,
+      location: {
+        x: Math.round(f.bounds.x + f.bounds.width/2),
+        y: Math.round(f.bounds.y + f.bounds.height/2),
+      },
+      bounds: f.bounds,
+    }));
+    output.value = JSON.stringify(json, null, 2);
+  }
+
+  document.getElementById('copyBtn').onclick = () => {
+    output.select(); navigator.clipboard.writeText(output.value);
+    const b = document.getElementById('copyBtn'); b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',1200);
+  };
+  document.getElementById('clearBtn').onclick = () => { if(confirm('Clear all boxes?')){faces=[];render();} };
+
+  window.addEventListener('resize', () => natW && render());
+})();
+</script>
+</body>
+</html>

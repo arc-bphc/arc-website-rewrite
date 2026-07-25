@@ -325,13 +325,6 @@ function HUDOverlay({ face, containerWidth, containerHeight }: { face: Face; con
                 sequential = {true}
                 speed={10}
               />
-              <br/>
-              <DecryptedText text={"Github: " + face.metadata.data.socials.github}
-                animateOn="view"
-                revealDirection="start"
-                sequential = {true}
-                speed={10}
-              />
             </div>
           </div>
 

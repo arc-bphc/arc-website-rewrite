@@ -47,7 +47,7 @@ const members = defineCollection({
     socials: z.object({
       github: z.string(),
       linkedin: z.string(),
-    }),
+    }).optional(),
 
   })
 })
