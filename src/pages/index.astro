@@ -8,6 +8,7 @@ import AnimatedHero from '../components/AnimatedHero'
 import TextReveal from "../components/TextAnimations/TextReveal"
 import CircularGallery from '../components/Components/CircularGallery/CircularGallery';
 import Banner from "../components/Banner"
+import AboutSection from '../components/About/AboutSection.astro'
 
 import { motion } from "framer-motion"
 
@@ -159,6 +160,8 @@ const { Content: About } = await render(about!);
 		<CircularGallery client:visible items={galleryItems} bend={1} textColor="#ffffff" borderRadius={0.05} scrollEase={.04}/>
 		</div>
 	</div>
+	<div class="w-full h-12"></div>
+	<AboutSection />
 	<style>
 		*{
 				cursor: none !important;

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "instagram",
+    "order": 1,
+    "label": "Instagram",
+    "handle": "@arc_bphc",
+    "description": "Build logs, event photos and everything we ship.",
+    "icon": { "type": "simple-icons", "name": "instagram" },
+    "link": "https://www.instagram.com/arc_bphc/",
+    "qr": "instagram.png"
+  },
+  {
+    "id": "whatsapp",
+    "order": 2,
+    "label": "Enthusiasts Group",
+    "handle": "ARC Enthusiasts 2k26",
+    "description": "Announcements, sessions and open calls, first-hand.",
+    "icon": { "type": "simple-icons", "name": "whatsapp" },
+    "link": "https://chat.whatsapp.com/C2Yh6DJ0lxrBvXWOYl8uWG",
+    "qr": "whatsapp.png"
+  },
+  {
+    "id": "github",
+    "order": 3,
+    "label": "GitHub",
+    "handle": "arc-bphc",
+    "description": "Source for our projects, this site included.",
+    "icon": { "type": "simple-icons", "name": "github" },
+    "link": "https://github.com/arc-bphc",
+    "qr": "github.png"
+  }
+]

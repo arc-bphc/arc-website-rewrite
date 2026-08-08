@@ -1,0 +1,162 @@
+---
+import { getCollection } from 'astro:content';
+
+import Icon from '../Icon.astro';
+
+const startOfToday = new Date();
+startOfToday.setHours(0, 0, 0, 0);
+
+// Undated entries ("TBA") stay in the list and sort to the bottom; dated ones
+// drop off the day after they happen.
+const events = (await getCollection('events'))
+	.filter(({ data }) => !data.date || data.date >= startOfToday)
+	.sort((a, b) => (a.data.date?.getTime() ?? Infinity) - (b.data.date?.getTime() ?? Infinity));
+
+const dateFormat = new Intl.DateTimeFormat('en-IN', { day: '2-digit', month: 'short' });
+---
+<section class="events-panel">
+	<header>
+		<Icon type="lucide" name="calendar-clock" width={20} height={20} class="glow-icon" />
+		<h3>Upcoming</h3>
+		<span class="events-count">{events.length.toString().padStart(2, '0')}</span>
+	</header>
+
+	{events.length === 0 ? (
+		<p class="events-empty">Nothing on the calendar right now. Follow us to catch the next one.</p>
+	) : (
+		<ol class="events-list">
+			{events.map(({ data }) => (
+				<li>
+					<span class="event-date">{data.date ? dateFormat.format(data.date) : 'TBA'}</span>
+					<div class="event-body">
+						<h4>
+							{data.link
+								? <a href={data.link} target="_blank" rel="noopener noreferrer" data-cursor-hover>{data.title}</a>
+								: data.title}
+						</h4>
+						<span class="event-location">{[data.when, data.location].filter(Boolean).join(' — ')}</span>
+						<p>{data.description}</p>
+					</div>
+				</li>
+			))}
+		</ol>
+	)}
+</section>
+<style>
+	.events-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		height: 100%;
+		padding: 1.5rem;
+		/* Translucent so the manipulator behind the section stays visible. */
+		background-color: rgba(18, 18, 18, .72);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		border: 1px solid #353535;
+	}
+
+	.events-panel header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: .75rem;
+	}
+
+	.events-panel header h3 {
+		margin: 0;
+		font-family: 'Orbitron', sans-serif;
+		font-size: 1.125rem;
+		letter-spacing: .06em;
+	}
+
+	.events-count {
+		margin-left: auto;
+		font-family: 'Geist Mono', monospace;
+		font-size: .75rem;
+		color: var(--primary);
+		border: 1px solid var(--primary-dark);
+		padding: .1rem .4rem;
+	}
+
+	.events-empty {
+		margin: 0;
+		font-size: .875rem;
+		color: #c7c7c7;
+	}
+
+	.events-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.events-list li {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+		padding: 1rem 0;
+		border-top: 1px solid #262626;
+	}
+
+	.events-list li:first-child {
+		border-top: none;
+		padding-top: 0;
+	}
+
+	.events-list li:last-child {
+		padding-bottom: 0;
+	}
+
+	.event-date {
+		flex-shrink: 0;
+		width: 4.5rem;
+		font-family: 'Geist Mono', monospace;
+		font-size: .75rem;
+		letter-spacing: .04em;
+		text-transform: uppercase;
+		color: var(--primary);
+		padding-top: .15rem;
+	}
+
+	.event-body {
+		display: flex;
+		flex-direction: column;
+		gap: .25rem;
+	}
+
+	.event-body h4 {
+		margin: 0;
+		font-family: 'Orbitron', sans-serif;
+		font-size: .9rem;
+		font-weight: 600;
+		letter-spacing: .02em;
+	}
+
+	.event-location {
+		font-family: 'Geist Mono', monospace;
+		font-size: .7rem;
+		color: #8f8f8f;
+	}
+
+	.event-body p {
+		margin: .25rem 0 0;
+		font-size: .8rem;
+		line-height: 1.5;
+		color: #c7c7c7;
+	}
+
+	@media screen and (max-width: 640px) {
+		.events-list li {
+			flex-direction: column;
+			gap: .5rem;
+		}
+
+		.event-date {
+			width: auto;
+			padding-top: 0;
+		}
+	}
+</style>

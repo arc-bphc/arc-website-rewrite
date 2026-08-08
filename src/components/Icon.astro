@@ -54,8 +54,14 @@ const body = replaceIDs(renderData.body);
 let renderAttribsHTML =
 	body.indexOf('xlink:') === -1 ? '' : ' xmlns:xlink="http://www.w3.org/1999/xlink"';
 
-for (const attr in attributes) {
-	renderAttribsHTML += ` ${attr}="${attributes[attr]}"`;
+// `iconToSVG` also hands back the icon's intrinsic viewBox. It has to be
+// emitted: without it the paths keep their own user units and get clipped at
+// any requested size that isn't the icon's native grid (usually 24x24).
+// Caller-supplied attributes still win, so explicit width/height are honoured.
+const mergedAttributes = { ...renderData.attributes, ...attributes };
+
+for (const attr in mergedAttributes) {
+	renderAttribsHTML += ` ${attr}="${mergedAttributes[attr]}"`;
 }
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg"${renderAttribsHTML}>${body}</svg>`;

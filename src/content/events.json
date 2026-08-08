@@ -1,0 +1,15 @@
+[
+  {
+    "id": "inductions",
+    "title": "Inductions",
+    "when": "Opening soon",
+    "location": "BITS Pilani, Hyderabad Campus",
+    "description": "Applications for the next cohort open soon. Follow our channels to catch the announcement."
+  },
+  {
+    "id": "ros-workshop",
+    "title": "ROS Workshop",
+    "when": "Date and venue to be announced",
+    "description": "A hands-on introduction to the Robot Operating System, the framework behind most modern robots."
+  }
+]

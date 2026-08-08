@@ -36,6 +36,42 @@ const socials = defineCollection({
   })
 });
 
+/**
+ * Channels shown as scannable QR tiles in the About section. `qr` is the file
+ * name of the code inside `src/assets/qr` — the tile falls back to a "pending"
+ * frame while that file is missing, so entries can be added before the image is.
+ */
+const connect = defineCollection({
+  loader: file("src/content/connect.json"),
+  schema: z.object({
+    id: z.string(),
+    order: z.number(),
+    label: z.string(),
+    handle: z.string(),
+    description: z.string(),
+    icon: z.union([lucideIconSchema, simpleIconSchema]),
+    link: z.string().url(),
+    qr: z.string(),
+  })
+});
+
+/**
+ * Upcoming events. `date` drives ordering and the "is it still upcoming" filter;
+ * entries with no fixed date yet use `when` instead and are listed last.
+ */
+const events = defineCollection({
+  loader: file("src/content/events.json"),
+  schema: z.object({
+    id: z.string(),
+    title: z.string(),
+    date: z.coerce.date().optional(),
+    when: z.string().optional(),
+    location: z.string().optional(),
+    description: z.string(),
+    link: z.string().url().optional(),
+  })
+});
+
 const members = defineCollection({
   loader: glob({ base: "src/content/members", pattern: "**/*.{yaml,yml,toml}"}),
   schema: ({ image }) => z.object({
@@ -107,4 +143,4 @@ const projects = defineCollection({
   })
 });
 
-export const collections = { tags, posts, projects, other, quickInfo, socials, members, newsletter };
+export const collections = { tags, posts, projects, other, quickInfo, socials, members, newsletter, connect, events };
