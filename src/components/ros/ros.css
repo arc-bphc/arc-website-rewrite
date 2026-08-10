@@ -540,6 +540,11 @@
 
 .ros-ghost {
 	position: fixed;
+	/* Anchored to the viewport origin so the transform is an absolute cursor
+	 * position. Without these the box keeps its static position at the end of
+	 * the app and the ghost flies in from the bottom of the page. */
+	top: 0;
+	left: 0;
 	z-index: 200;
 	pointer-events: none;
 	opacity: .95;

@@ -56,7 +56,18 @@ const { title, description } = Astro.props;
 	main.workshop-main {
 		max-width: 1720px;
 		gap: 1rem;
-		padding: 2rem 0 1.5rem;
+		/* globals.css only puts a gutter on <body> below 1380px, and this page is
+		 * wide enough that its max-width does not bite until 1720px. Without a
+		 * gutter of its own the layout sits flush against the viewport edge
+		 * everywhere in between. */
+		padding: 2rem 2rem 1.5rem;
+	}
+
+	@media screen and (max-width: 1380px) {
+		/* Below here <body> supplies the gutter; taking it again would double it. */
+		main.workshop-main {
+			padding-inline: 0;
+		}
 	}
 
 	@media screen and (max-width: 640px) {

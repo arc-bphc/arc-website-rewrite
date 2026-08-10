@@ -61,6 +61,18 @@ export default function ROSWorkspace() {
 	const [dropTarget, setDropTarget] = useState<DropTarget | null>(null);
 	const dropTargetRef = useRef<DropTarget | null>(null);
 	const ghostRef = useRef<HTMLDivElement | null>(null);
+	// Latest pointer position, kept outside React so moving the ghost costs no
+	// render. The ghost mounts one render after the drag starts, so it reads this
+	// on attach rather than waiting for the next pointermove and flashing at 0,0.
+	const ghostPos = useRef({ x: 0, y: 0, width: 0 });
+
+	const placeGhost = useCallback((element: HTMLDivElement | null) => {
+		ghostRef.current = element;
+		if (!element) return;
+		const { x, y, width } = ghostPos.current;
+		element.style.width = `${width}px`;
+		element.style.transform = `translate(${x}px, ${y}px)`;
+	}, []);
 
 	const simRef = useRef<Simulation | null>(null);
 	if (simRef.current === null) simRef.current = new Simulation(lessonAt(0).arena);
@@ -285,6 +297,12 @@ export default function ROSWorkspace() {
 		let started = false;
 
 		const move = (moveEvent: PointerEvent) => {
+			ghostPos.current = {
+				x: moveEvent.clientX - dx,
+				y: moveEvent.clientY - dy,
+				width: rect.width,
+			};
+
 			if (!started) {
 				if (Math.hypot(moveEvent.clientX - startX, moveEvent.clientY - startY) < DRAG_THRESHOLD) {
 					return;
@@ -293,11 +311,7 @@ export default function ROSWorkspace() {
 				setDragPayload(payload);
 			}
 
-			const ghost = ghostRef.current;
-			if (ghost) {
-				ghost.style.width = `${rect.width}px`;
-				ghost.style.transform = `translate(${moveEvent.clientX - dx}px, ${moveEvent.clientY - dy}px)`;
-			}
+			placeGhost(ghostRef.current);
 
 			const next = resolveTarget(moveEvent.clientX, moveEvent.clientY, payload);
 			if (targetKey(next) !== targetKey(dropTargetRef.current)) {
@@ -319,7 +333,7 @@ export default function ROSWorkspace() {
 		window.addEventListener('pointermove', move);
 		window.addEventListener('pointerup', finish);
 		window.addEventListener('pointercancel', finish);
-	}, [commitDrop]);
+	}, [commitDrop, placeGhost]);
 
 	/**
 	 * Node cards move by writing to the element's own style during the drag and
@@ -540,7 +554,7 @@ export default function ROSWorkspace() {
 			</div>
 
 			{dragPayload && (
-				<div className="ros-ghost" ref={ghostRef} aria-hidden="true">
+				<div className="ros-ghost" ref={placeGhost} aria-hidden="true">
 					<GhostBlock payload={dragPayload} />
 				</div>
 			)}

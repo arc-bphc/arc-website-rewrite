@@ -9,11 +9,11 @@ interface Props {
 	showTraffic: boolean;
 }
 
-/** Lines kept in the DOM. Older ones are dropped rather than hidden. */
+
 const MAX_LINES = 200;
-/** How often batched lines reach React. */
+
 const FLUSH_MS = 120;
-/** Minimum gap between traffic lines for the same topic. */
+
 const TRAFFIC_MS = 500;
 
 export default function ConsoleView({ sim, showTraffic }: Props) {
