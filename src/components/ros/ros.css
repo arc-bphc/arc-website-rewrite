@@ -1,0 +1,878 @@
+/*
+ * Styling for the interactive ROS environment.
+ *
+ * Everything here is built from the site's existing vocabulary: #0b0b0b ground,
+ * #121212 surfaces, #353535 hairlines, square corners, Geist Mono for anything
+ * machine-ish and Orbitron for headings. The only addition is a three-hue block
+ * accent set, which Scratch-style editors need in order to be readable at a
+ * glance — kept tight on purpose so it reads as one system.
+ */
+
+.ros-app {
+	--surface: #121212;
+	--surface-raised: #171717;
+	--surface-sunken: #0d0d0d;
+	--hairline: #353535;
+	--hairline-soft: #262626;
+	--text-dim: #8a8a8a;
+	--text-muted: #c7c7c7;
+
+	/* Output side of the graph: publishing, and the messages it sends. */
+	--accent-pub: #ccff00;
+	/* Input side: subscriptions and the things that read them. */
+	--accent-sub: #6ee7f9;
+	/* Control flow. */
+	--accent-ctl: #ffb648;
+
+	display: flex;
+	flex-direction: column;
+	gap: .75rem;
+	font-family: 'Geist Mono', monospace;
+	font-size: .8rem;
+	color: #ffffff;
+}
+
+/* ------------------------------------------------------------------ toolbar */
+
+.ros-toolbar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: .75rem;
+	flex-wrap: wrap;
+	padding: .625rem .75rem;
+	border: 1px solid var(--hairline);
+	background-color: var(--surface);
+}
+
+.ros-transport {
+	display: flex;
+	flex-direction: row;
+	gap: .5rem;
+}
+
+.ros-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	padding: .45rem .8rem;
+	border: 1px solid var(--hairline);
+	background-color: var(--surface-raised);
+	color: #ffffff;
+	font-family: 'Geist Mono', monospace;
+	font-size: .75rem;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color .12s ease, border-color .12s ease, color .12s ease;
+}
+
+.ros-btn:hover:not(:disabled) {
+	border-color: var(--primary);
+	background-color: rgba(var(--primary-rgb), .12);
+}
+
+.ros-btn:focus-visible {
+	outline: 2px solid var(--primary);
+	outline-offset: 2px;
+}
+
+.ros-btn:disabled {
+	opacity: .4;
+	cursor: not-allowed;
+}
+
+.ros-btn.primary {
+	background-color: var(--primary);
+	border-color: var(--primary);
+	color: #0b0b0b;
+	font-weight: 700;
+}
+
+.ros-btn.primary:hover:not(:disabled) {
+	background-color: var(--primary-light);
+	border-color: var(--primary-light);
+}
+
+.ros-status {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	margin-left: auto;
+	color: var(--text-dim);
+	letter-spacing: .08em;
+	text-transform: uppercase;
+	font-size: .7rem;
+}
+
+.ros-status .led {
+	width: 7px;
+	height: 7px;
+	background-color: #4f4f4f;
+	transition: background-color .15s ease, box-shadow .15s ease;
+}
+
+.ros-status.running .led {
+	background-color: var(--primary);
+	box-shadow: 0 0 8px var(--primary);
+	animation: ros-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes ros-pulse {
+	50% { opacity: .35; }
+}
+
+.ros-clock {
+	font-variant-numeric: tabular-nums;
+	color: var(--text-muted);
+}
+
+/* -------------------------------------------------------------------- shell */
+
+.ros-shell {
+	display: grid;
+	grid-template-columns: 210px minmax(0, 1.35fr) minmax(0, 1fr);
+	gap: .75rem;
+	align-items: stretch;
+	min-height: 34rem;
+}
+
+.ros-column {
+	display: flex;
+	flex-direction: column;
+	gap: .75rem;
+	min-width: 0;
+}
+
+.ros-panel {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--hairline);
+	background-color: var(--surface);
+	min-height: 0;
+	/* The graph SVG is sized in px and sets a wide min-content on its panel. In a
+	 * column flex line every sibling stretches to the widest item, so without
+	 * both of these the graph drags the lesson and robot panels — and the page —
+	 * sideways instead of scrolling inside .ros-graph-scroll. */
+	min-width: 0;
+	max-width: 100%;
+}
+
+.ros-panel-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .5rem;
+	padding: .5rem .625rem;
+	border-bottom: 1px solid var(--hairline);
+	font-size: .68rem;
+	letter-spacing: .16em;
+	text-transform: uppercase;
+	color: var(--text-dim);
+	flex: 0 0 auto;
+}
+
+.ros-panel-head .hint {
+	letter-spacing: 0;
+	text-transform: none;
+	color: #5f5f5f;
+}
+
+.ros-panel-body {
+	flex: 1 1 auto;
+	min-height: 0;
+	min-width: 0;
+	overflow: auto;
+}
+
+/* ------------------------------------------------------------------ palette */
+
+.ros-palette {
+	padding: .625rem;
+	display: flex;
+	flex-direction: column;
+	gap: .875rem;
+}
+
+.ros-palette-group {
+	display: flex;
+	flex-direction: column;
+	gap: .375rem;
+}
+
+.ros-palette-label {
+	font-size: .62rem;
+	letter-spacing: .18em;
+	text-transform: uppercase;
+	color: #5f5f5f;
+}
+
+.ros-palette-item {
+	position: relative;
+	cursor: grab;
+	touch-action: none;
+	user-select: none;
+}
+
+.ros-palette-item:active {
+	cursor: grabbing;
+}
+
+.ros-palette-item.locked {
+	opacity: .3;
+	cursor: not-allowed;
+	filter: grayscale(1);
+}
+
+.ros-locked-note {
+	font-size: .62rem;
+	color: #4f4f4f;
+	line-height: 1.4;
+}
+
+/* ------------------------------------------------------------------- blocks */
+
+.ros-block {
+	display: flex;
+	flex-direction: column;
+	gap: .35rem;
+	padding: .45rem .55rem .45rem .7rem;
+	background-color: var(--surface-raised);
+	border: 1px solid var(--hairline);
+	border-left: 3px solid var(--accent-pub);
+	transition: border-color .12s ease, background-color .12s ease, transform .12s ease;
+}
+
+.ros-block[data-accent='sub'] { border-left-color: var(--accent-sub); }
+.ros-block[data-accent='ctl'] { border-left-color: var(--accent-ctl); }
+.ros-block[data-accent='node'] { border-left-color: #e8e8e8; }
+
+.ros-block:hover {
+	border-color: var(--hairline);
+	background-color: #1c1c1c;
+}
+
+.ros-block-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: .4rem;
+	flex-wrap: wrap;
+	min-height: 1.5rem;
+}
+
+.ros-block-kw {
+	font-size: .72rem;
+	letter-spacing: .04em;
+	color: var(--accent-pub);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.ros-block[data-accent='sub'] .ros-block-kw { color: var(--accent-sub); }
+.ros-block[data-accent='ctl'] .ros-block-kw { color: var(--accent-ctl); }
+.ros-block[data-accent='node'] .ros-block-kw { color: #e8e8e8; }
+
+.ros-block-word {
+	font-size: .72rem;
+	color: var(--text-dim);
+	white-space: nowrap;
+}
+
+/* The grab area: everything except the inputs. */
+.ros-block-grip {
+	cursor: grab;
+	touch-action: none;
+}
+
+.ros-block-grip:active {
+	cursor: grabbing;
+}
+
+/* Source block while its copy is being dragged. */
+.ros-block.dragging {
+	opacity: .35;
+}
+
+/* Fresh arrival, so a dropped block announces itself. */
+@keyframes ros-drop-in {
+	from { transform: translateY(-4px) scale(.98); opacity: 0; }
+	to { transform: none; opacity: 1; }
+}
+
+.ros-slot {
+	animation: ros-drop-in .16s ease-out;
+}
+
+/* ------------------------------------------------------------------- inputs */
+
+.ros-input,
+.ros-select {
+	background-color: var(--surface-sunken);
+	border: 1px solid var(--hairline-soft);
+	color: #ffffff;
+	font-family: 'Geist Mono', monospace;
+	font-size: .72rem;
+	padding: .15rem .35rem;
+	min-width: 0;
+	transition: border-color .12s ease;
+}
+
+.ros-input:hover,
+.ros-select:hover {
+	border-color: #4a4a4a;
+}
+
+.ros-input:focus,
+.ros-select:focus {
+	outline: none;
+	border-color: var(--primary);
+}
+
+.ros-input.num {
+	width: 3.6rem;
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+.ros-input.text {
+	width: 7rem;
+}
+
+.ros-select.topic {
+	color: var(--primary-light);
+}
+
+/* --------------------------------------------------------------- workspace */
+
+.ros-canvas {
+	position: relative;
+	min-height: 30rem;
+	background-color: var(--surface-sunken);
+	/* Faint grid, the one visual cue that says "this is a place you build in". */
+	background-image:
+		linear-gradient(to right, rgba(255, 255, 255, .028) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(255, 255, 255, .028) 1px, transparent 1px);
+	background-size: 22px 22px;
+	overflow: auto;
+}
+
+.ros-canvas.drop-active {
+	box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.ros-canvas-empty {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+	text-align: center;
+	color: #4f4f4f;
+	pointer-events: none;
+	padding: 2rem;
+}
+
+.ros-canvas-empty strong {
+	color: #6f6f6f;
+	font-weight: 600;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	font-size: .7rem;
+}
+
+/* ------------------------------------------------------------- node cards */
+
+.ros-node {
+	position: absolute;
+	width: 20rem;
+	max-width: calc(100% - 1rem);
+	background-color: var(--surface);
+	border: 1px solid var(--hairline);
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, .45);
+	transition: border-color .12s ease;
+}
+
+.ros-node:focus-within {
+	border-color: #4a4a4a;
+}
+
+.ros-node.active {
+	border-color: var(--primary);
+}
+
+.ros-node-head {
+	display: flex;
+	align-items: center;
+	gap: .45rem;
+	padding: .45rem .5rem;
+	border-bottom: 1px solid var(--hairline);
+	background-color: var(--surface-raised);
+	cursor: grab;
+	touch-action: none;
+	user-select: none;
+}
+
+.ros-node-head:active {
+	cursor: grabbing;
+}
+
+.ros-node-name {
+	background: none;
+	border: none;
+	color: #ffffff;
+	font-family: 'Orbitron', sans-serif;
+	font-size: .78rem;
+	letter-spacing: .06em;
+	padding: .1rem .2rem;
+	min-width: 0;
+	flex: 1 1 auto;
+	cursor: text;
+}
+
+.ros-node-name:hover {
+	background-color: rgba(255, 255, 255, .04);
+}
+
+.ros-node-name:focus {
+	outline: none;
+	background-color: rgba(var(--primary-rgb), .12);
+}
+
+.ros-node-rate {
+	display: flex;
+	align-items: center;
+	gap: .25rem;
+	color: var(--text-dim);
+	font-size: .66rem;
+	white-space: nowrap;
+}
+
+.ros-node-remove {
+	color: #5f5f5f;
+	cursor: pointer;
+	padding: .1rem;
+	display: inline-flex;
+	transition: color .12s ease;
+}
+
+.ros-node-remove:hover {
+	color: #ff6b6b;
+}
+
+.ros-node-remove:focus-visible {
+	outline: 2px solid var(--primary);
+	outline-offset: 1px;
+}
+
+.ros-node-section {
+	padding: .5rem;
+	display: flex;
+	flex-direction: column;
+	gap: .35rem;
+}
+
+.ros-node-section + .ros-node-section {
+	border-top: 1px solid var(--hairline-soft);
+}
+
+.ros-section-label {
+	font-size: .6rem;
+	letter-spacing: .18em;
+	text-transform: uppercase;
+	color: #4f4f4f;
+}
+
+/* --------------------------------------------------------------- drop zones */
+
+.ros-dropzone {
+	display: flex;
+	flex-direction: column;
+	gap: .35rem;
+	min-height: 2.1rem;
+	padding: .2rem;
+	border: 1px dashed transparent;
+	transition: border-color .12s ease, background-color .12s ease;
+}
+
+.ros-dropzone.empty {
+	border-color: var(--hairline-soft);
+	align-items: center;
+	justify-content: center;
+	color: #454545;
+	font-size: .68rem;
+}
+
+.ros-dropzone.over {
+	border-color: var(--primary);
+	background-color: rgba(var(--primary-rgb), .06);
+}
+
+/* The snap indicator: a lime rule showing exactly where the block lands.
+ * Negative margins cancel its own height so that showing it does not shift the
+ * blocks below — otherwise the slot midpoints move and the index oscillates. */
+.ros-insertion {
+	height: 3px;
+	margin: -1.5px 0;
+	background-color: var(--primary);
+	box-shadow: 0 0 10px rgba(var(--primary-rgb), .7);
+	animation: ros-insertion-in .1s ease-out;
+	flex: 0 0 auto;
+}
+
+@keyframes ros-insertion-in {
+	from { transform: scaleX(.6); opacity: 0; }
+	to { transform: none; opacity: 1; }
+}
+
+/* An if-block's body is inset so nesting is obvious without extra chrome. */
+.ros-nest {
+	margin-left: .55rem;
+	padding-left: .5rem;
+	border-left: 2px solid rgba(255, 182, 72, .35);
+}
+
+/* -------------------------------------------------------------------- ghost */
+
+.ros-ghost {
+	position: fixed;
+	z-index: 200;
+	pointer-events: none;
+	opacity: .95;
+	transform-origin: top left;
+	filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .55));
+}
+
+.ros-ghost .ros-block {
+	transform: rotate(-1.2deg) scale(1.02);
+}
+
+.ros-trash-hint {
+	color: #ff6b6b;
+	font-size: .66rem;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.ros-palette.trash-armed {
+	box-shadow: inset 0 0 0 1px #ff6b6b;
+}
+
+/* -------------------------------------------------------------------- graph */
+
+.ros-graph-scroll {
+	overflow: auto;
+	padding: .25rem;
+	min-height: 11rem;
+}
+
+.ros-graph svg {
+	display: block;
+}
+
+.ros-graph-node rect {
+	fill: var(--surface-raised);
+	stroke: var(--hairline);
+	stroke-width: 1;
+}
+
+.ros-graph-node.builtin rect {
+	fill: #14180a;
+	stroke: rgba(var(--primary-rgb), .5);
+}
+
+.ros-graph-node text {
+	fill: #ffffff;
+	font-family: 'Orbitron', sans-serif;
+	font-size: 11px;
+	letter-spacing: .04em;
+}
+
+.ros-graph-topic rect {
+	fill: var(--surface-sunken);
+	stroke: rgba(110, 231, 249, .45);
+	stroke-width: 1;
+	stroke-dasharray: 3 3;
+}
+
+.ros-graph-topic text {
+	fill: var(--accent-sub);
+	font-family: 'Geist Mono', monospace;
+	font-size: 10.5px;
+}
+
+.ros-graph-edge {
+	fill: none;
+	stroke: #3a3a3a;
+	stroke-width: 1.5;
+}
+
+.ros-graph-packet {
+	fill: var(--primary);
+	filter: drop-shadow(0 0 4px var(--primary));
+}
+
+.ros-graph-empty {
+	color: #4f4f4f;
+	padding: 2rem 1rem;
+	text-align: center;
+	font-size: .72rem;
+	line-height: 1.6;
+}
+
+/* -------------------------------------------------------------------- robot */
+
+.ros-arena {
+	display: block;
+	width: 100%;
+	height: auto;
+	background-color: var(--surface-sunken);
+}
+
+.ros-arena-foot {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	padding: .4rem .625rem;
+	border-top: 1px solid var(--hairline-soft);
+	color: var(--text-dim);
+	font-size: .66rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.ros-arena-foot b {
+	color: var(--text-muted);
+	font-weight: 500;
+}
+
+/* ------------------------------------------------------------------ console */
+
+.ros-console {
+	height: 9.5rem;
+}
+
+.ros-console-body {
+	padding: .4rem .625rem;
+	font-size: .72rem;
+	line-height: 1.55;
+	overflow-y: auto;
+}
+
+.ros-console-line {
+	display: flex;
+	gap: .55rem;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.ros-console-time {
+	color: #4f4f4f;
+	flex: 0 0 auto;
+	font-variant-numeric: tabular-nums;
+}
+
+.ros-console-line.info .ros-console-text { color: var(--text-muted); }
+.ros-console-line.topic .ros-console-text { color: var(--accent-sub); }
+.ros-console-line.warn .ros-console-text { color: var(--accent-ctl); }
+.ros-console-line.error .ros-console-text { color: #ff6b6b; }
+.ros-console-line.success .ros-console-text { color: var(--primary); }
+
+.ros-console-empty {
+	color: #454545;
+}
+
+/* ------------------------------------------------------------------ lessons */
+
+.ros-lesson {
+	display: flex;
+	flex-direction: column;
+	gap: .6rem;
+	padding: .75rem;
+}
+
+.ros-lesson-eyebrow {
+	font-size: .62rem;
+	letter-spacing: .18em;
+	text-transform: uppercase;
+	color: var(--primary);
+}
+
+.ros-lesson h2 {
+	margin: 0;
+	font-family: 'Orbitron', sans-serif;
+	font-size: 1rem;
+	letter-spacing: .04em;
+}
+
+.ros-lesson-concept {
+	color: var(--text-muted);
+	line-height: 1.6;
+	margin: 0;
+	font-family: 'Geist', sans-serif;
+	font-size: .82rem;
+}
+
+.ros-lesson-brief {
+	margin: 0;
+	padding-left: 1.1rem;
+	color: var(--text-dim);
+	line-height: 1.7;
+	font-size: .74rem;
+}
+
+.ros-lesson-goal {
+	display: flex;
+	align-items: flex-start;
+	gap: .5rem;
+	padding: .5rem .625rem;
+	border: 1px solid var(--hairline);
+	background-color: var(--surface-sunken);
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.ros-lesson-goal.done {
+	border-color: var(--primary);
+	background-color: rgba(var(--primary-rgb), .1);
+	color: var(--primary);
+}
+
+.ros-lesson-goal .marker {
+	color: var(--primary);
+	flex: 0 0 auto;
+}
+
+.ros-lesson-nav {
+	display: flex;
+	gap: .5rem;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.ros-steps {
+	display: flex;
+	gap: .3rem;
+	flex-wrap: wrap;
+}
+
+.ros-step {
+	width: 1.7rem;
+	height: 1.7rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--hairline);
+	background-color: var(--surface-raised);
+	color: var(--text-dim);
+	font-size: .68rem;
+	cursor: pointer;
+	transition: all .12s ease;
+}
+
+.ros-step:hover {
+	border-color: #4a4a4a;
+	color: #ffffff;
+}
+
+.ros-step:focus-visible {
+	outline: 2px solid var(--primary);
+	outline-offset: 1px;
+}
+
+.ros-step.current {
+	border-color: var(--primary);
+	color: var(--primary);
+}
+
+.ros-step.done {
+	background-color: rgba(var(--primary-rgb), .18);
+	border-color: rgba(var(--primary-rgb), .5);
+	color: var(--primary);
+}
+
+/* Celebration on a passed challenge — brief, then out of the way. */
+.ros-toast {
+	position: fixed;
+	left: 50%;
+	bottom: 2rem;
+	transform: translateX(-50%);
+	z-index: 300;
+	display: flex;
+	align-items: center;
+	gap: .6rem;
+	padding: .7rem 1.1rem;
+	background-color: var(--primary);
+	color: #0b0b0b;
+	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+	font-size: .74rem;
+	box-shadow: 0 8px 30px rgba(var(--primary-rgb), .35);
+	animation: ros-toast-in .28s cubic-bezier(.2, .9, .3, 1.4);
+}
+
+@keyframes ros-toast-in {
+	from { transform: translate(-50%, 14px); opacity: 0; }
+	to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media screen and (max-width: 1280px) {
+	.ros-shell {
+		grid-template-columns: 190px minmax(0, 1fr);
+	}
+
+	/* Robot and graph move below the workspace rather than shrinking further. */
+	.ros-shell > .ros-column.side {
+		grid-column: 1 / -1;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.ros-shell > .ros-column.side > .ros-panel {
+		flex: 1 1 22rem;
+	}
+}
+
+@media screen and (max-width: 820px) {
+	.ros-shell {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ros-shell > .ros-column.side {
+		flex-direction: column;
+	}
+
+	.ros-palette {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+
+	.ros-palette-group {
+		flex: 1 1 9rem;
+	}
+
+	.ros-canvas {
+		min-height: 24rem;
+	}
+
+	.ros-node {
+		width: 17rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ros-app *,
+	.ros-app *::before,
+	.ros-app *::after {
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .001ms !important;
+	}
+}

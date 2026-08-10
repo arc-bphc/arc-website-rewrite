@@ -1,0 +1,58 @@
+---
+import WorkshopLayout from '../layouts/WorkshopLayout.astro';
+import WorkshopBar from '../components/ros/WorkshopBar.astro';
+import ROSWorkspace from '../components/ros/ROSWorkspace';
+---
+<WorkshopLayout
+	title="ROS 101 — ARC BPHC"
+	description="Learn ROS nodes, topics, publishers and subscribers by dragging blocks and driving a robot. No install, no terminal, runs entirely in your browser."
+>
+	<WorkshopBar session="ROS 101" />
+
+	<section class="ros-intro">
+		<span class="ros-intro-eyebrow">// Workshop &mdash; Interactive</span>
+		<h1>Build a robot out of nodes.</h1>
+		<p>
+			Everything here is fake except the ideas. Drag blocks to make nodes, wire them
+			together with topics, press <strong>Run</strong>, and watch messages move. Nothing to
+			install, nothing to break &mdash; it all runs in this tab.
+		</p>
+	</section>
+
+	<ROSWorkspace client:load />
+</WorkshopLayout>
+<style>
+	.ros-intro {
+		display: flex;
+		flex-direction: column;
+		gap: .5rem;
+		padding: 1.25rem 0 .25rem;
+		max-width: 46rem;
+	}
+
+	.ros-intro-eyebrow {
+		font-family: 'Geist Mono', monospace;
+		font-size: .75rem;
+		letter-spacing: .18em;
+		text-transform: uppercase;
+		color: var(--primary);
+	}
+
+	.ros-intro h1 {
+		margin: 0;
+		font-family: 'Orbitron', sans-serif;
+		font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+		letter-spacing: .02em;
+	}
+
+	.ros-intro p {
+		margin: 0;
+		color: #c7c7c7;
+		line-height: 1.65;
+	}
+
+	.ros-intro strong {
+		color: var(--primary);
+		font-weight: 600;
+	}
+</style>
