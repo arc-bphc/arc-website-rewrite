@@ -1,0 +1,78 @@
+---
+/**
+ * Full-bleed layout for the interactive workshop.
+ *
+ * Layout.astro caps `main` at 1280px and splits it into the article grid, which
+ * a three-panel editor cannot live inside. This keeps the same head, reset,
+ * globals and Navbar, and only widens the content area.
+ */
+import '../styles/reset.css';
+import '../styles/globals.css';
+
+import Navbar from '../components/Navbar.astro';
+import { name, themeColor } from 'spectre:globals';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
+		<meta name="theme-color" content={themeColor}>
+
+		<meta name="og:title" content={title} />
+		{description && <meta name="og:description" content={description} />}
+		<meta name="og:image" content="/img/og.png" />
+		<meta name="og:type" content="website" />
+		<meta name="og:locale" content="en" />
+		<meta name="author" content={name} />
+
+		<script defer data-domain="arc-bphc.netlify.app" src="https://plausible.aten2005.dev/js/script.outbound-links.js"></script>
+	</head>
+	<body>
+		<main class="workshop-main" data-pagefind-ignore>
+			<Navbar />
+			<slot />
+		</main>
+	</body>
+</html>
+<style is:global>
+	/* Wider than the article grid, but still gutter-aligned with the rest of the site. */
+	main.workshop-main {
+		max-width: 1720px;
+		gap: 1rem;
+		/* globals.css only puts a gutter on <body> below 1380px, and this page is
+		 * wide enough that its max-width does not bite until 1720px. Without a
+		 * gutter of its own the layout sits flush against the viewport edge
+		 * everywhere in between. */
+		padding: 2rem 2rem 1.5rem;
+	}
+
+	@media screen and (max-width: 1380px) {
+		/* Below here <body> supplies the gutter; taking it again would double it. */
+		main.workshop-main {
+			padding-inline: 0;
+		}
+	}
+
+	@media screen and (max-width: 640px) {
+		main.workshop-main {
+			padding: 0 1rem 1rem;
+		}
+	}
+</style>
