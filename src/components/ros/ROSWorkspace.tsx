@@ -34,6 +34,8 @@ import './ros.css';
 const STORAGE_KEY = 'arc-ros-workshop-v1';
 /** How often challenge checks run. Fast enough to feel instant, slow enough to be free. */
 const CHECK_MS = 300;
+/** Beat between a challenge passing and the next lesson loading, so the ✓ registers. */
+const ADVANCE_MS = 1500;
 
 interface Saved {
 	version: 1;
@@ -53,6 +55,8 @@ export default function ROSWorkspace() {
 	const [running, setRunning] = useState(false);
 	const [toast, setToast] = useState<string | null>(null);
 	const [restored, setRestored] = useState(false);
+	/** Lesson index waiting to be stepped past, set only by a fresh challenge pass. */
+	const [pendingAdvance, setPendingAdvance] = useState<number | null>(null);
 
 	// Drag: the payload and the resolved target live in React because they change
 	// the rendered tree; the pointer position does not, and is applied straight to
@@ -139,10 +143,31 @@ export default function ROSWorkspace() {
 			setCompleted((current) => new Set(current).add(lesson.id));
 			setToast(`${lesson.title} — challenge passed`);
 			sim.log('success', `challenge passed: ${lesson.goal}`);
+			// Only a first pass queues the advance. This effect bails on lessons
+			// already in `completed`, so replaying an old one never drags the
+			// student forward again.
+			setPendingAdvance(lessonIndex);
 		}, CHECK_MS);
 
 		return () => window.clearInterval(timer);
-	}, [sim, lesson, completed]);
+	}, [sim, lesson, completed, lessonIndex]);
+
+	// Passing a challenge moves the student on. Held for a beat so the ✓ and the
+	// toast land before the panel changes underneath them, and guarded on their
+	// still being where they passed — clicking to another lesson in that window
+	// means they chose it, so it stands.
+	useEffect(() => {
+		if (pendingAdvance === null) return;
+
+		const timer = window.setTimeout(() => {
+			setLessonIndex((current) =>
+				current === pendingAdvance ? Math.min(current + 1, LESSONS.length) : current,
+			);
+			setPendingAdvance(null);
+		}, ADVANCE_MS);
+
+		return () => window.clearTimeout(timer);
+	}, [pendingAdvance]);
 
 	useEffect(() => {
 		if (!toast) return;
