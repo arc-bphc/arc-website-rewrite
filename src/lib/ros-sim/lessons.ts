@@ -148,10 +148,10 @@ export const LESSONS: Lesson[] = [
 			'Press Run.',
 			'angular turns; linear drives.',
 		],
-		goal: 'Drive 3 metres.',
+		goal: 'Drive 3 metres, or just drive into the green box.',
 		arena: OPEN,
 		unlocks: [],
-		check: (run) => run.distance >= 3,
+		check: (run) => run.reachedGoal || run.distance >= 3,
 	},
 	{
 		id: 'sensing',
@@ -162,10 +162,10 @@ export const LESSONS: Lesson[] = [
 			'Drop an If block: if scan.front < 1, publish angular instead of linear.',
 			'There is a wall ahead now.',
 		],
-		goal: 'Drive 4 metres over 12 seconds without hitting anything.',
+		goal: 'Drive 4 metres over 12 seconds without hitting anything, or reach the green box.',
 		arena: WALL,
 		unlocks: ['if'],
-		check: (run) => run.distance >= 4 && run.time >= 12 && !run.collided,
+		check: (run) => run.reachedGoal || (run.distance >= 4 && run.time >= 12 && !run.collided),
 	},
 	{
 		id: 'course',
@@ -176,11 +176,11 @@ export const LESSONS: Lesson[] = [
 			'Your node only knows what /scan tells it.',
 			'Nothing new to learn — just put it together.',
 		],
-		// Reaching the flag needs the robot to know where the flag *is*, and /scan
+		// Reaching the box needs the robot to know where the box *is*, and /scan
 		// cannot tell it that. Surviving the course is what this block set can
-		// genuinely express, so that is what is asked; the flag stays as a bonus
-		// for anyone who gets lucky or clever.
-		goal: 'Drive 15 metres through the course without hitting anything. (Flag = bonus.)',
+		// genuinely express, so that is the reachable half of the goal; the box
+		// stays winnable for anyone who gets lucky or clever.
+		goal: 'Reach the green box, or survive 15 metres of the course without hitting anything.',
 		arena: COURSE,
 		unlocks: [],
 		check: (run) => run.reachedGoal || (run.distance >= 15 && !run.collided),

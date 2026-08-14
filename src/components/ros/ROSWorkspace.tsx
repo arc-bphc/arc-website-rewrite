@@ -44,6 +44,25 @@ interface Saved {
 	completed: string[];
 }
 
+/** Keeps a restored index inside the lesson list; past the end means the sandbox. */
+function clampLesson(index: unknown): number {
+	if (typeof index !== 'number' || !Number.isFinite(index)) return 0;
+	return Math.min(Math.max(Math.trunc(index), 0), LESSONS.length);
+}
+
+/**
+ * Next free `node_N`. Counting the nodes would reuse a name after a deletion —
+ * add two, delete the first, add another, and two boxes are both `node_2`.
+ */
+function nextNodeName(nodes: Program['nodes']): string {
+	let highest = 0;
+	for (const node of nodes) {
+		const match = /^node_(\d+)$/.exec(node.name);
+		if (match) highest = Math.max(highest, Number(match[1]));
+	}
+	return `node_${highest + 1}`;
+}
+
 const MemoGraph = memo(GraphView);
 const MemoRobot = memo(RobotView);
 const MemoConsole = memo(ConsoleView);
@@ -94,10 +113,14 @@ export default function ROSWorkspace() {
 			const raw = window.localStorage.getItem(STORAGE_KEY);
 			if (raw) {
 				const saved = JSON.parse(raw) as Saved;
-				if (saved.version === 1) {
+				// Shape-checked, not just version-checked. A half-written value parses
+				// fine and then throws during render, which white-screens the island on
+				// every reload until someone opens devtools — the worst thing that can
+				// happen to a student on a lab machine. Bad data is dropped instead.
+				if (saved?.version === 1 && Array.isArray(saved.program?.nodes)) {
 					setProgram(saved.program);
-					setLessonIndex(saved.lessonIndex);
-					setCompleted(new Set(saved.completed));
+					setLessonIndex(clampLesson(saved.lessonIndex));
+					setCompleted(new Set(Array.isArray(saved.completed) ? saved.completed : []));
 				}
 			}
 		} catch {
@@ -215,7 +238,7 @@ export default function ROSWorkspace() {
 
 			// --- new node ------------------------------------------------------
 			if (target.type === 'canvas' && payload.type === 'new-node') {
-				const name = `node_${current.nodes.length + 1}`;
+				const name = nextNodeName(current.nodes);
 				nodes.push(newNode(name, Math.max(4, target.x - 60), Math.max(4, target.y - 12)));
 				return { nodes };
 			}
