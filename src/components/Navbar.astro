@@ -143,7 +143,7 @@ const path = Astro.url.pathname;
   });
 
   const handleTabletChange = () => {
-    if (window.matchMedia('(max-width: 640px)').matches) {
+    if (window.matchMedia('(max-width: 800px)').matches) {
       searchElement.placeholder = 'Search';
     } else {
       searchElement.placeholder = 'Search (Ctrl+K)';
@@ -249,7 +249,10 @@ const path = Astro.url.pathname;
     display: none;
   }
 
-  @media screen and (max-width: 640px) {
+  /* The desktop row (logo + five items + search) has an intrinsic width of 790px.
+     Adding the Workshop tab pushed it past what fits between 641px and 789px, so
+     the mobile nav now takes over below 800px rather than 640px. */
+  @media screen and (max-width: 800px) {
     nav {
       padding: 0 1rem;
       padding-top: 1rem;
