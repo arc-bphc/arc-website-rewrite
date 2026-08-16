@@ -206,6 +206,35 @@ export default function ROSWorkspace() {
 		}));
 	}, []);
 
+	/**
+	 * Wipes the saved session: blocks, lesson position and every tick.
+	 *
+	 * Clearing progress while leaving the blocks in place would immediately
+	 * re-pass lessons 1 and 2 — a node exists, a publisher exists — and walk the
+	 * student straight back to lesson 3 while the toasts fire. Emptying the
+	 * workspace at the same time is what makes "start over" actually start over.
+	 */
+	const startOver = useCallback(() => {
+		const confirmed = window.confirm(
+			'Start over? This deletes your blocks and clears every completed lesson. It cannot be undone.',
+		);
+		if (!confirmed) return;
+
+		try {
+			window.localStorage.removeItem(STORAGE_KEY);
+		} catch {
+			// Blocked or full storage. The in-memory reset below still applies, and
+			// the save effect will overwrite the stale record on the next render.
+		}
+
+		sim.reset();
+		setProgram({ nodes: [] });
+		setCompleted(new Set());
+		setPendingAdvance(null);
+		setLessonIndex(0);
+		setToast('Started over — back to lesson 1');
+	}, [sim]);
+
 	const commitDrop = useCallback((payload: DragPayload, target: DropTarget | null) => {
 		if (!target) return;
 
@@ -455,7 +484,7 @@ export default function ROSWorkspace() {
 						{running ? '❚❚ Pause' : '▶ Run'}
 					</button>
 					<button type="button" className="ros-btn" onClick={() => sim.reset()}>
-						↺ Reset
+						↺ Restart run
 					</button>
 					<button
 						type="button"
@@ -469,6 +498,9 @@ export default function ROSWorkspace() {
 						}}
 					>
 						Clear
+					</button>
+					<button type="button" className="ros-btn" onClick={startOver}>
+						Start over
 					</button>
 				</div>
 
