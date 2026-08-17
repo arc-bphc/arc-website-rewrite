@@ -91,6 +91,7 @@ export default function RobotView({ sim, arena }: Props) {
 			context.strokeRect(px(goal.x), py(goal.y + goal.h), px(goal.w), goal.h * scale);
 			context.restore();
 
+
 			context.fillStyle = COLOURS.obstacle;
 			context.strokeStyle = COLOURS.obstacleEdge;
 			context.lineWidth = 1;
