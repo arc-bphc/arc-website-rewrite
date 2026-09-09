@@ -25,7 +25,16 @@ const quickInfo = defineCollection({
     text: z.string(),
   })
 });
-
+const por = defineCollection({
+  loader: file("src/content/por.json"),
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    role: z.string(),
+    order: z.number(),
+    image: z.string().optional(),
+  })
+});
 const socials = defineCollection({
   loader: file("src/content/socials.json"),
   schema: z.object({
@@ -143,4 +152,4 @@ const projects = defineCollection({
   })
 });
 
-export const collections = { tags, posts, projects, other, quickInfo, socials, members, newsletter, connect, events };
+export const collections = { tags, posts, projects, other, quickInfo, socials, members, newsletter, connect, events, por };

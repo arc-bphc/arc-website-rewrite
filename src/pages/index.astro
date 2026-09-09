@@ -9,6 +9,7 @@ import TextReveal from "../components/TextAnimations/TextReveal"
 import CircularGallery from '../components/Components/CircularGallery/CircularGallery';
 import Banner from "../components/Banner"
 import AboutSection from '../components/About/AboutSection.astro'
+import PORSection from '../components/POR/PORSection.astro'
 
 import { motion } from "framer-motion"
 
@@ -161,6 +162,10 @@ const { Content: About } = await render(about!);
 		</div>
 	</div>
 	<div class="w-full h-12"></div>
+	<div class="w-full h-12"></div>
+    <PORSection />
+    <div class="w-full h-12"></div>
+
 	<AboutSection />
 	<style>
 		*{

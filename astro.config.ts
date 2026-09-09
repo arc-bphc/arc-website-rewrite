@@ -60,6 +60,7 @@ const config = defineConfig({
       },
     }),
   ],
+  
   vite: {
     plugins: [tailwindcss()]
   },
