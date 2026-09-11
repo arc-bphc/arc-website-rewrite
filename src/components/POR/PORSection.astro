@@ -33,7 +33,7 @@ function getInitials(name: string): string {
 ---
 <section class="por-section">
 	<div class="por-intro">
-		<span class="por-eyebrow">Leadership</span>
+
 		<TextReveal client:visible
 			text="People of Responsibility"
 			className='text-4xl font-semibold font-[orbitron] pb-6 md:text-6xl'
@@ -94,29 +94,31 @@ function getInitials(name: string): string {
 	.por-grid {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 1rem;
+		gap: 1.25rem;
 		width: 100%;
 		max-width: 1100px;
 	}
 
 	.por-card {
 		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 1rem;
-		padding: 1.25rem;
+		flex-direction: column;
 		background-color: rgba(18, 18, 18, .72);
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
 		border: 1px solid #353535;
+		overflow: hidden;
+		transition: border-color .2s ease;
+	}
+
+	.por-card:hover {
+		border-color: var(--primary-dark, #4d5e00);
 	}
 
 	.por-avatar {
-		flex-shrink: 0;
-		width: 3.5rem;
-		height: 3.5rem;
+		width: 100%;
+		aspect-ratio: 1 / 1;
 		overflow: hidden;
-		border: 1px solid var(--primary-dark);
+		border-bottom: 1px solid #353535;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -131,7 +133,7 @@ function getInitials(name: string): string {
 
 	.por-initials {
 		font-family: 'Geist Mono', monospace;
-		font-size: 1rem;
+		font-size: 3.5rem;
 		letter-spacing: .04em;
 		color: var(--primary);
 	}
@@ -139,14 +141,15 @@ function getInitials(name: string): string {
 	.por-info {
 		display: flex;
 		flex-direction: column;
-		gap: .2rem;
+		gap: .3rem;
 		min-width: 0;
+		padding: 1.1rem 1.25rem 1.35rem;
 	}
 
 	.por-info h4 {
 		margin: 0;
 		font-family: 'Orbitron', sans-serif;
-		font-size: .95rem;
+		font-size: 1.1rem;
 		font-weight: 600;
 		letter-spacing: .02em;
 		white-space: nowrap;
@@ -156,7 +159,7 @@ function getInitials(name: string): string {
 
 	.por-role {
 		font-family: 'Geist Mono', monospace;
-		font-size: .75rem;
+		font-size: .8rem;
 		color: var(--primary-light);
 	}
 

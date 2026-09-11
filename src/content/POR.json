@@ -1,9 +1,9 @@
    [
      { "id": "President", "name": "Aviral Maindola", "role": "President", "order": 1 },
-     { "id": "Sec1", "name": "Ved Deshmukh", "role": "Secretary", "order": 2 },
+     { "id": "Sec1", "name": "Ved Deshmukh", "role": "Secretary", "order": 2, "image": "Sec.jpeg"},
      { "id": "Sec2", "name": "John Seegler", "role": "Secretary", "order": 3 },
-     { "id": "JoSec1", "name": "Yash Bhatt", "role": "Joint Secretary", "order": 4 },
-     { "id": "JoSec2", "name": "Kaveesh Chaudhary", "role": "Joint Secretary", "order": 5 },
-     { "id": "Tres", "name": "Arav Gupta", "role": "Treasurer", "order": 6 },
+     { "id": "JoSec1", "name": "Yash Bhatt", "role": "Joint Secretary", "order": 4 , "image": "JoSec1.jpeg"},
+     { "id": "JoSec2", "name": "Kaveesh Chaudhari", "role": "Joint Secretary", "order": 5, "image" : "JoSec2.jpeg"},
+     { "id": "Tres", "name": "Arav Gupta", "role": "Treasurer", "order": 6 ,"image": "Tres.jpeg"},
      { "id": "MH", "name": "Sivachandra Yanamandra", "role": "Management Head", "order": 7 }
    ]
