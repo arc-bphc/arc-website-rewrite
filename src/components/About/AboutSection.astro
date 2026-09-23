@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content';
 
 import TextReveal from '../TextAnimations/TextReveal';
 import ConnectCard from './ConnectCard.astro';
-import EventsPanel from './EventsPanel.astro';
 import RoboticArm from './RoboticArm';
 
 // QR images are looked up by file name so an entry in connect.json can exist
@@ -40,8 +39,6 @@ const channels = (await getCollection('connect')).sort((a, b) => a.data.order - 
 					<ConnectCard channel={channel.data} qr={qrByFile.get(channel.data.qr)} />
 				))}
 			</div>
-
-			<EventsPanel />
 		</div>
 	</div>
 </section>
@@ -116,6 +113,7 @@ const channels = (await getCollection('connect')).sort((a, b) => a.data.order - 
 		}
 
 		.about-grid {
+			/* Keeps QR cards at their previous 2/3 width; the empty 1fr track exposes the RoboticArm backdrop. */
 			grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
 			align-items: start;
 		}
