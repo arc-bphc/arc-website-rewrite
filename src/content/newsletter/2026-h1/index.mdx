@@ -1,0 +1,448 @@
+---
+title: "ARC's Welcome to the 26 Batch"
+description: "ARC Newsletter — Aug to September 2026: CAD, Linux dual-boot × CRUX, ROS, inductions and project spotlights"
+image: "./assets/cover.jpeg"
+createdAt: 2026-09-30
+draft: false
+tags:
+  - newsletter
+  - robotics
+  - simulation
+  - induction
+---
+
+import { Image } from "astro:assets";
+import cover from "./assets/cover.jpeg";
+import team from "./assets/team-placeholder.jpeg";
+import ros from "./assets/ros.jpeg"
+import cad from "./assets/CAD.jpeg"
+import robodog from "./assets/Zobozog.jpeg"
+import so100 from "./assets/so100.png"
+import amazhand from "./assets/amazinghand.jpeg"
+import linux from "./assets/linux.jpeg"
+
+<div class="issue-hero">
+  <div class="issue-hero-grid" aria-hidden="true"></div>
+  <div class="issue-hero-badge">First Sem, First Half Review: ARC BPHC</div>
+  <h1 class="issue-hero-title">Welcoming new Inductees<span class="hero-accent">.</span></h1>
+  <p class="issue-hero-sub">
+    An overview of Workshops, Inductions, Funding drives and projects we did since the last two months
+  </p>
+  <div class="hero-meta">
+    <span>Aug - September 2026</span>
+    <span class="dot">•</span>
+    <span>15 min read</span>
+    <span class="dot">•</span>
+    
+  </div>
+</div>
+
+## Aug to Oct At a Glance
+
+> Our Sem started with an Interactive CAD workshop and a Browser only, Hands on ROS Workshop, both racking up insane numbers as participation, as we moved forward with inductions, we had the highest number of applications in the history of ARC, and we obviously welcomed our new inductess with projects, which you can read all about here.
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <span class="stat-num">350 + </span>
+    <span class="stat-label">Applications</span>
+    <span class="stat-note">41 new Inductees</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-num">500 + </span>
+    <span class="stat-label">Workshop attendees</span>
+    <span class="stat-note">Across 3 workshops</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-num">10</span>
+    <span class="stat-label">Active Projects</span>
+    <span class="stat-note">all building, training and simulating simultaneously</span>
+  </div>
+</div>
+
+---
+
+## Timeline: Aug -> Sept
+
+<div class="timeline">
+  <div class="tl-item">
+    <span class="tl-dot"></span>
+    <div class="tl-card">
+      <span class="tl-date">6th August</span>
+      <h3>CAD Workshop</h3>
+      <p>Over 200 people design their own Carambit in fusion 360</p>
+    </div>
+  </div>
+  <div class="tl-item">
+    <span class="tl-dot"></span>
+    <div class="tl-card">
+      <span class="tl-date">14 Aug</span>
+      <h3>Linux Dual-Boot Workshop × CRUX</h3>
+      <p>Hands-on dual-boot walkthrough in collaboration with <strong>CRUX</strong> — partitioning, live USBs, and first boot into Linux without bricking Windows</p>
+    </div>
+  </div>
+  <div class="tl-item">
+    <span class="tl-dot"></span>
+    <div class="tl-card">
+      <span class="tl-date">19 Aug</span>
+      <h3>ROS Workshop</h3>
+      <p>Interactive In Browser demonstration of ROS built on <a href="https://arc-bphc.netlify.app/ros/">ARC's very own website</a></p>
+    </div>
+  </div>
+  <div class="tl-item">
+    <span class="tl-dot"></span>
+    <div class="tl-card">
+      <span class="tl-date">25 Aug</span>
+      <h3>Induction Tasks</h3>
+      <p>6 Tasks, in a Jeopardy-CTF format, with a warhammer 40k theme</p>
+    </div>
+  </div>
+  <div class="tl-item">
+    <span class="tl-dot"></span>
+    <div class="tl-card">
+      <span class="tl-date">7 Sept</span>
+      <h3>New Inductees and their projects</h3>
+      <p>All the new members have been assigned new cool projects and resources</p>
+    </div>
+  </div>
+</div>
+
+---
+
+## CAD Workshop Recap
+
+Before the ROS Workshop an even larger workshop was held, which taught the 26 Batch fundamentals of Fusion 360 and demonstrated how to design their own Carambit using the Software.
+
+<Image src={cad} alt="CAD workshop — Fusion 360 Carambit" quality={90} style="width:100%; height:auto; border-radius:8px; border:1px solid #353535;" />
+
+*Even Prof. Sabareesh, the Mech HOD, shared valuable insights and guidance*
+
+> Fusion 360 files and the Carambit demo were shared in the enthusiasts group — ping us for the model.
+
+---
+
+## Linux Dual-Boot Workshop Recap: ARC × CRUx
+
+In collaboration with **CRUx**, we ran a hands-on Linux dual-boot workshop which is the ideal launchpad for ROS. We gave a live walthrough of the entire Dual Boot and WSL Installation process, and helped the Atendees troubleshoot any issues they faced. Many GRUB Menu Rescues happened, Many HP Bootloader issues, many Wrong Disk Partitions were made, But everyone successfully had a Linux Machine in the end, thanks to such talented troubleshooting.
+
+<Image src={linux} alt="Linux Dual-Boot Workshop in collaboration with CRUX" quality={90} style="width:100%; height:auto; border-radius:8px; border:1px solid #353535;" />
+
+
+---
+
+## ROS Workshop Recap
+
+We ran ROS 101 as a **no-install, browser-only** intro to nodes, topics, publishers and subscribers via the [ROS Arcade](https://arc-bphc.netlify.app/ros/). The goal was to get a robot to the green box using the codeblocks provided.
+
+<Image src={ros} alt="ROS workshop" quality={90} style="width:100%; height:auto; border-radius:8px; border:1px solid #353535;" />
+
+*New way to learn fundamentals without dealing with installation headaches*
+
+```bash
+# peek at what the robot sees and tell it where to go
+ros2 topic echo /scan      # wall sensors
+ros2 topic pub /cmd_vel    # velocity commands
+```
+
+> You can [check it out yourself](https://arc-bphc.netlify.app/ros/)!
+
+---
+
+## Project Spotlights
+
+<div class="spot-grid">
+
+  <div class="spot-card">
+    <div class="spot-thumb" style="padding:0; overflow:hidden;">
+      <Image src={robodog} alt="Zobozog robodog" quality={90} style="width:100%; height:100%; object-fit:cover;" />
+    </div>
+    <h3>Robodog</h3>
+    <p>The Stanford Pupper Robot Dog built by ARC from scratch, this project aims to build and train a robot dog</p>
+    <span class="spot-meta">Under M. Gnanadeep Sai</span>
+  </div>
+
+  <div class="spot-card">
+    <Image src={so100} alt="SO-100 dual-arm rig" quality={90} style="width:100%; height:100%; object-fit:cover;" />
+    <h3>Dual Robotic Arm Coordination</h3>
+    <p>Harnessing the Power of reinforcement Learning, and attempting to implement new research to manipulate objects using two Robotic Arms</p>
+    <span class="spot-meta">Under Yash Bhatt</span>
+  </div>
+
+  <div class="spot-card">
+    <Image src={amazhand} alt="Amazing Hand — humanoid robotic hand prototype" quality={90} style="width:100%; height:100%; object-fit:cover;" />
+    <h3>Amazing Hand</h3>
+    <p>A Humanoid Robotic Hand built by ARC, with 3D Printed components. This project aims to manimpulate objects, mimicking movements of a real robotic hand</p>
+    <span class="spot-meta">Under Faria and Deepansh Goyal</span>
+  </div>
+
+</div>
+
+---
+
+## Our New Induction Process
+
+If the workshops were the trailer, this was the main feature. This year’s induction ran completely through github repos, here is the main one: **[arc-bphc/2026-ARC-Induction](https://github.com/arc-bphc/2026-ARC-Induction#tasks)** and it was built to be brutally honest about what ARC actually does.
+
+**6 tasks, 3 tracks.** Three easy tasks to get your hands dirty and three hard ones that demanded real digging and troubleshooting. You could attempt any task, in any order. The harder tasks ahd not "correct answer", and they focused more on thinking ability. The whole point was breadth: mechanical intuition, embedded, simulation, or code you had to pick your fight, and excel at it.
+
+Every submission came in as a **pull request**. This taught the Candidates version control by default, which is an absolute necessity when working with so many people.
+
+Shortlisted folks were then called for **interviews**. We weren’t hunting for the most polished technical skills. We scored for three things in roughly this order: **enthusiasm, time you can actually give, and competency**.
+
+From that pipeline, we picked **40 of the best candidates for ARC**, and we couldn’t be happier. They’ve walked straight into the builds you saw above, the Robodog, the dual-arm setup, the Amazing Hand and the ATMOS Projects, which are top secret till the ATMOS marketing starts ;).    
+
+> Browse the exact tasks they cracked: **[github.com/arc-bphc/2026-ARC-Induction#tasks](https://github.com/arc-bphc/2026-ARC-Induction#tasks)**
+
+As ARC buckles up for The Most Active ATMOS yet, we expect even better performance from our juniors, and hopefully they shall deliver.
+
+---
+
+## Member of the Month
+
+
+
+<style>{`
+  .motm-photo {
+    float: right;
+    width: 220px;
+    height: auto;
+    margin: 0 0 1rem 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #353535;
+    box-shadow: 0 0 24px rgba(204,255,0,.18);
+  }
+  @media screen and (max-width: 640px) {
+    .motm-photo {
+      float: none;
+      display: block;
+      width: 62%;
+      margin: 0 auto 1rem;
+    }
+  }
+`}</style>
+
+
+
+
+
+**Sathwik Reddy**
+
+This new inductee has done more work than some senior members, Sandboxx is like his hostel, and he only goes to Valmiki to sleep. Fixing those Ender 3D printers needs a lot of tinkering and patience, great work, keep it up!
+
+<div style={{ clear: "both" }}></div>
+
+---
+
+See you after ATMOS.
+
+**— The ARC Team**
+
+{/* ===== COOL EFFECTS — scoped to this issue only ===== */}
+<style>{`
+  .issue-hero {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #353535;
+    background: linear-gradient(180deg, rgba(204,255,0,.09), rgba(18,18,18,.92));
+    padding: 2.2rem 1.6rem 1.6rem;
+    margin-bottom: 2rem;
+    isolation: isolate;
+  }
+  .issue-hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(204,255,0,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(204,255,0,.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse at 50% 40%, black 58%, transparent 82%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 58%, transparent 82%);
+    z-index: -1;
+  }
+  .issue-hero-badge {
+    display: inline-block;
+    font-family: 'Geist Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--primary);
+    border: 1px solid var(--primary-dark);
+    padding: .2rem .5rem;
+    margin-bottom: .9rem;
+  }
+  .issue-hero-title {
+    margin: 0 0 .4rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+    letter-spacing: .02em;
+    line-height: 1.05;
+  }
+  .hero-accent { color: var(--primary); text-shadow: 0 0 18px rgba(204,255,0,.55); }
+  .issue-hero-sub {
+    margin: .6rem 0 0;
+    color: #d6d6d6;
+    font-size: 1.05rem;
+    max-width: 42rem;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    align-items: center;
+    margin-top: 1rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: .75rem;
+    color: #9a9a9a;
+  }
+  .hero-meta .dot { opacity: .5; }
+  .draft-tag {
+    color: #111;
+    background: var(--primary);
+    padding: .1rem .35rem;
+    font-weight: 600;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .9rem;
+    margin: 1.1rem 0 0;
+  }
+  @media screen and (min-width: 640px) {
+    .stats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .stat-card {
+    background: rgba(18,18,18,.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #353535;
+    padding: 1.1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    transition: border-color .18s ease, transform .18s ease;
+  }
+  .stat-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .stat-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.7rem;
+    color: var(--primary);
+    filter: drop-shadow(0 0 8px rgba(204,255,0,.35));
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: .78rem;
+    letter-spacing: .04em;
+    color: #fff;
+    margin-top: .25rem;
+  }
+  .stat-note {
+    font-size: .75rem;
+    color: #8f8f8f;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding-left: 1.6rem;
+    margin: 1rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: .45rem;
+    top: .2rem;
+    bottom: .2rem;
+    width: 1px;
+    background: linear-gradient(180deg, var(--primary), transparent 92%);
+    opacity: .9;
+  }
+  .tl-item { position: relative; }
+  .tl-dot {
+    position: absolute;
+    left: -1.38rem;
+    top: 1.45rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--primary);
+    box-shadow: 0 0 10px rgba(204,255,0,.9);
+    border: 2px solid #0d0d0d;
+  }
+  .tl-card {
+    background: rgba(18,18,18,.72);
+    border: 1px solid #353535;
+    padding: 1rem 1.1rem;
+    transition: border-color .18s ease;
+  }
+  .tl-card:hover { border-color: var(--primary-dark); }
+  .tl-date {
+    font-family: 'Geist Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .08em;
+    color: var(--primary);
+  }
+  .tl-card h3 {
+    margin: .25rem 0 .35rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+  }
+  .tl-card p { margin: 0; color: #c7c7c7; font-size: .9rem; line-height: 1.5; }
+
+  .spot-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: .6rem;
+  }
+  @media screen and (min-width: 720px) {
+    .spot-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .spot-card {
+    background: rgba(18,18,18,.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #353535;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    transition: border-color .18s ease, transform .18s ease;
+    min-height: 12rem;
+  }
+  .spot-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .spot-thumb {
+    aspect-ratio: 16 / 9;
+    background: #0d0d0d;
+    border: 1px solid #262626;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .08em;
+    color: #5a5a5a;
+  }
+  .spot-card h3 {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    font-size: .95rem;
+  }
+  .spot-card p { margin: 0; color: #c7c7c7; font-size: .85rem; line-height: 1.5; }
+  .spot-meta {
+    margin-top: auto;
+    font-family: 'Geist Mono', monospace;
+    font-size: .7rem;
+    color: #8f8f8f;
+  }
+`}</style>
+

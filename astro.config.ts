@@ -29,7 +29,7 @@ const {
 
 // https://astro.build/config
 const config = defineConfig({
-  site: 'https://staging.arc.aten2005.dev',
+  site: 'https://arc-bphc.netlify.app',
   adapter: netlify(),
   output: 'static',
   integrations: [
